@@ -11,6 +11,8 @@
 // #include "5_9.h"
 // #include "5_10.h"
 
+// l.tirca@di.ku.dk
+
 // using namespace std;
 
 // 5.6
@@ -61,11 +63,11 @@ void Multiply(double *res, double **A, double *B, int ARows, int ACols, int BRow
 
     assert(ACols == BRows);
 
-    for(int i = 0; i < ACols; i++){
+    for(int i = 0; i < ARows; i++){
 
         res_i  = 0;
 
-        for(int k = 0; k < BRows; k++){
+        for(int k = 0; k < ACols; k++){
             res_i += A[i][k]*B[k];
         }
         res[i] = res_i;

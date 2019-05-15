@@ -207,7 +207,7 @@ void solve3by3(double **A, double *b, double *u){
     int n = 3;
     double A_ij;
     double b_i;
-    A[0][0] = 0;
+    //A[0][0] = 0;
 
     for(int k = 1; k < n; k++){
         for(int i = k; i < n; i++){

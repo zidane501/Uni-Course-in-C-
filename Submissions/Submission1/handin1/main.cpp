@@ -82,9 +82,9 @@ int main()
 //////////////////////////////////////////////////////////////////////////
     //5.6
 
-
+/*
     int ARows = 3; int ACols = 3;
-    int BRows = 3; int BCols = 3;
+    int BRows = 3; int BCols = 2;
     int n = 3;
 
     //double* u = new double [ACols];
@@ -99,24 +99,29 @@ int main()
         B[j] = new double [BCols];
         res[j] = new double [ACols];
     }
+*/
 
-
-    /*A[0][0] = 1; A[0][1] = 2; A[0][2] = -3;
+/*
+    A[0][0] = 1; A[0][1] = 2; A[0][2] = -3;
     A[1][0] = 2; A[1][1] = -1; A[1][2] = 4;
     A[2][0] = 1;A[2][1] = -1; A[2][2] = 1;
-    v[0] = 6; v[1] = 1; v[2] = 3;*/
+    v[0] = 6; v[1] = 1; v[2] = 3;
+*/
     
     //v[0] = 1; v[1] = 2; v[2] = 3;
 
-    /*A[0][0] = 1; A[0][1] = 1; A[0][2] = 1;
+/*  
+    A[0][0] = 1; A[0][1] = 1; A[0][2] = 1;
     A[1][0] = 0; A[1][1] = 2; A[1][2] = 5;
-    A[2][0] = 2; A[2][1] = 5; A[2][2] = -1;*/
+    A[2][0] = 2; A[2][1] = 5; A[2][2] = -1;
+*/
 
     //v[0] = 6; v[1] = -4; v[2] = 27;
 
-    /*B[0][0] = 1; B[0][1] = 1; B[0][2] = 1;
+/*  B[0][0] = 1; B[0][1] = 1; B[0][2] = 1;
     B[1][0] = 2; B[1][1] = 2; B[1][2] = 2;
-    B[2][0] = 3; B[2][1] = 3; B[2][2] = 3;*/
+    B[2][0] = 3; B[2][1] = 3; B[2][2] = 3;
+*/
     
     ////////////
     // Create and Delete Matrix recipe
@@ -136,14 +141,15 @@ int main()
     // matrix multiplication
     //Multiply(res, A, B, ARows , ACols , BRows , BCols);
 
-    /*for(int a = 0; a < ARows; a++){
+/*  for(int a = 0; a < ARows; a++){
         for(int b = 0; b < BCols; b++){
             std::cout << "res " << a << "," << b << " : " << res[a][b] << std::endl;
         }
-    }*/
+    }
+*/
 
     // Vector*Matrix multiplication
-    /*int uRows = 3;
+/*  int uRows = 3;
     double* u = new double [uRows];
     double* v = new double [uRows];
 
@@ -151,28 +157,34 @@ int main()
 
     Multiply(v, B, u, BRows , BCols, uRows);
     std::cout << "v " << 0 << " : " << v[0] << std::endl;
-    std::cout << "v " << 1 << " : " << v[1] << std::endl;*/
+    std::cout << "v " << 1 << " : " << v[1] << std::endl;
+*/
    
     // Matrix*Vector multiplication
+/*
     int uRows = 2;
     double* u = new double [BCols];
-    double* v = new double [BCols];
-
-    B[0][0] = 5; B[0][1] = 1; B[0][2] = 1;
+    double* v = new double [BRows];
+*/
+    /*B[0][0] = 5; B[0][1] = 1; B[0][2] = 1;
     B[1][0] = 2; B[1][1] = 2; B[1][2] = 2;
-    B[2][0] = 3; B[2][1] = 3; B[2][2] = 2;
-    
-    u[0] = 1; u[1] = 2; u[2] = 3;
+    B[2][0] = 3; B[2][1] = 3; B[2][2] = 2;*/
+/*    
+    B[0][0] = 5; B[0][1] = 1; 
+    B[1][0] = 2; B[1][1] = 2; 
+    B[2][0] = 3; B[2][1] = 3; 
 
-    Multiply(v, B, u, BRows , BCols, BRows);
+    u[0] = 1; u[1] = 2; //u[2] = 3;
+
+    Multiply(v, B, u, BRows , BCols, BCols);
 
     std::cout << "v " << 0 << " : " << v[0] << std::endl;
     std::cout << "v " << 1 << " : " << v[1] << std::endl;
     std::cout << "v " << 2 << " : " << v[2] << std::endl;
-
+*/
 /*
     // Scalar*Matrix multiplication
-    /*double scalar = 3;
+    double scalar = 3;
 
     Multiply(res, B, scalar, BRows, BCols);
 
@@ -195,33 +207,110 @@ int main()
 
 
     delete[] u;
-    delete[] v;*/
+    delete[] v;
+*/
+
 //////////////////////////////////////////////////////////////////////////
     // 5.9
-    /*solve3by3(A, v, u); // v = b; A*u = b; x1=17/15(1.133);x2=-7/5(1.4);x3=-9/5(1.8);
+    int n = 4;
+    double* u = new double [n];
+    double* v = new double [n];
+    double** A = new double* [n];
+    
+
+    for (int j=0; j<n; j++){
+        A[j] = new double [n];
+    }
+/*
+    A[0][0] = 1; A[0][1] = 2; A[0][2] = -3;
+    A[1][0] = 2; A[1][1] = -1; A[1][2] = 4;
+    A[2][0] = 1;A[2][1] = -1; A[2][2] = 1;
+    v[0] = 6; v[1] = 1; v[2] = 3;
+    // v = b; A*u = b; 
+    //x1 = 17/15 (1.133); x2 = -7/5 (1.4); x3 = -9/5 (1.8);
+*/
+/*    
+    A[0][0] = 4;  A[0][1] = 2;  A[0][2] = -2;
+    A[1][0] = 2;  A[1][1] = 8;  A[1][2] = 4;
+    A[2][0] = 30; A[2][1] = 12; A[2][2] = -4;
+    v[0] = 10; 
+    v[1] = 32; 
+    v[2] = 24;
+    //v = b; A*u = b; 
+    //u1=-2; u2 = 6; u3 = -3;
+
+    /solve3by3(A, v, u); 
+
+    std::cout << A[0][0] << " " << A[0][1] << " " << A[0][2] << std::endl;
+    std::cout << A[1][0] << " " << A[1][1] << " " << A[1][2] << std::endl;
+    std::cout << A[2][0] << " " << A[2][1] << " " << A[2][2] << std::endl;
 
     std::cout << "u " << 0 << " : " << u[0] << " " << "17/15" << std::endl;
     std::cout << "u " << 1 << " : " << u[1] << " " <<  "-7/5" << std::endl;
     std::cout << "u " << 2 << " : " << u[2] << " " <<  "-9/5" << std::endl;
+    
+    for (int i=0; i<3; i++)
+    {
+        delete[] A[i];
 
-    for(int a = 0; a < 3; a++){
-        for(int b = 0; b < 3; b++){
-            std::cout << "A " << a << "," << b << " : " << A[a][b] << std::endl;
-        }
-    }*/
+    }
 
+    delete[] A;
+
+    delete[] u; 
+    delete[] v;
+*/
 //////////////////////////////////////////////////////////////////
     // 5.10
+/*  
+    A[0][0] = 4;  A[0][1] = 2;  A[0][2] = -2; 
+    A[1][0] = 2;  A[1][1] = 8;  A[1][2] = 4;
+    A[2][0] = 30; A[2][1] = 12; A[2][2] = -4;
+*/
     
+    A[0][0] = 0;  A[0][1] =  1;  A[0][2] =  1; A[0][3] = -2; 
+    A[1][0] = 1;  A[1][1] =  2;  A[1][2] = -1; A[1][3] =  0;
+    A[2][0] = 2;  A[2][1] =  4;  A[2][2] =  1; A[2][3] = -3;
+    A[3][0] = 1;  A[3][1] = -4;  A[3][2] = -7; A[3][3] = -1;
+
+    v[0] =  -3; 
+    v[1] =   2; 
+    v[2] =  -2;
+    v[3] = -19;
+
+    // Sol: 1,1,1,1
     // int N = 3;
-  /*B[0][0] = 0; B[0][1] = 1; B[0][2] = 1;
+/*
+    B[0][0] = 0; B[0][1] = 1; B[0][2] = 1;
     B[1][0] = 2; B[1][1] = 2; B[1][2] = 2;
-    B[2][0] = 3; B[2][1] = 3; B[2][2] = 3;*/
+    B[2][0] = 3; B[2][1] = 3; B[2][2] = 3;
+*/
 
-    //guassian_elimination(B, v, u, 3);
+    guassian_elimination(A, v, u, n);
+    
+    std::cout << A[0][0] << " " << A[0][1] << " " << A[0][2] << A[0][3] << std::endl;
+    std::cout << A[1][0] << " " << A[1][1] << " " << A[1][2] << A[1][3] << std::endl;
+    std::cout << A[2][0] << " " << A[2][1] << " " << A[2][2] << A[2][3] << std::endl;
+    std::cout << A[3][0] << " " << A[3][1] << " " << A[3][2] << A[3][3] << std::endl;
 
+    std::cout << "u " << 0 << " : " << u[0] << " " << ""  << std::endl;
+    std::cout << "u " << 1 << " : " << u[1] << " " <<  "" << std::endl;
+    std::cout << "u " << 2 << " : " << u[2] << " " <<  "" << std::endl;
+    std::cout << "u " << 3 << " : " << u[3] << " " <<  "" << std::endl;
+    
+    for (int i=0; i<n; i++)
+    {
+        delete[] A[i];
+
+    }
+
+    delete[] A;
+
+    delete[] u; 
+    delete[] v;
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
+/*
     // Deletion:
     for (int i=0; i<ARows; i++)
     {
@@ -238,6 +327,8 @@ int main()
 
     delete[] u;
     delete[] v;
+*/
+/////////////////////////////////////////////////////////////////////////////
 
     return 0;
 }

@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1554810859 source:/home/duck/Lau/KU/Blok 4/C++/Poker_game/main.cpp
+	<iostream>
+	"Player.h"
+	"Round.h"
+
+1554992193 /home/duck/Lau/KU/Blok 4/C++/Poker_game/include/Player.h
+	<iostream>
+	"cardclass.h"
+
+1554931563 /home/duck/Lau/KU/Blok 4/C++/Poker_game/include/cardclass.h
+	<iostream>
+	<string>
+
+1555023015 /home/duck/Lau/KU/Blok 4/C++/Poker_game/include/Round.h
+	<iostream>
+	"cards.h"
+	"Player.h"
+
+1554931391 /home/duck/Lau/KU/Blok 4/C++/Poker_game/include/cards.h
+	<iostream>
+	<vector>
+	"cardclass.h"
+
+1554931983 source:/home/duck/Lau/KU/Blok 4/C++/Poker_game/src/cardclass.cpp
+	"cardclass.h"
+	<iostream>
+
+1554931065 source:/home/duck/Lau/KU/Blok 4/C++/Poker_game/src/cards.cpp
+	"cards.h"
+	"cardclass.h"
+	<iostream>
+
+1554930979 source:/home/duck/Lau/KU/Blok 4/C++/Poker_game/src/Player.cpp
+	"Player.h"
+	<iostream>
+
+1554992043 source:/home/duck/Lau/KU/Blok 4/C++/Poker_game/src/Round.cpp
+	"Round.h"
+	<iostream>
+

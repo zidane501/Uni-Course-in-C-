@@ -1,0 +1,46 @@
+# depslib dependency file v1.0
+1556537987 source:/home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/Submission1/2_6.cpp
+	<iostream>
+	"2_6.h"
+	<math.h>
+	<vector>
+	<iomanip>
+
+1557142632 source:/home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/Submission1/main.cpp
+	<iostream>
+	"2_6.h"
+	"../3_3.h"
+	"../5_3.h"
+	"../5_4.h"
+	"../5_6.h"
+	"../5_9.h"
+	"../5_10.h"
+
+1430134073 /home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/Submission1/2_6.h
+
+1430140167 /home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/3_3.h
+
+1557148246 source:/home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/Submission1/submission1.cpp
+	<iostream>
+	<cassert>
+	<math.h>
+	<vector>
+	<iomanip>
+	<fstream>
+	"2_6.h"
+	"../3_3.h"
+	"../5_4.h"
+	"../5_6.h"
+	"../5_9.h"
+	"../5_10.h"
+
+1430134073 /home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/5_3.h
+
+1430134073 /home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/5_4.h
+
+1430134073 /home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/5_6.h
+
+1430134073 /home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/5_9.h
+
+1430134073 /home/duck/Lau/KU/Blok 4/C++/Submissions/Submission1/5_10.h
+

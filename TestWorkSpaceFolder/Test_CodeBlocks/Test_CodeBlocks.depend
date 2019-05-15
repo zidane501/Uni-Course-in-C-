@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1554414601 source:/home/duck/Lau/KU/Blok 4/C++/TestWorkSpaceFolder/Inheritance.cpp
+	<iostream>
+	"Inheritance.h"
+	"InheritanceDaughter.h"
+
+1554414053 /home/duck/Lau/KU/Blok 4/C++/TestWorkSpaceFolder/Inheritance.h
+
+1554414622 /home/duck/Lau/KU/Blok 4/C++/TestWorkSpaceFolder/InheritanceDaughter.h
+
+1554414622 source:/home/duck/Lau/KU/Blok 4/C++/TestWorkSpaceFolder/InheritanceDaughter.cpp
+	<iostream>
+	"Inheritance.h"
+	"InheritanceDaughter.h"
+
+1554592399 source:/home/duck/Lau/KU/Blok 4/C++/TestWorkSpaceFolder/Test_CodeBlocks/main.cpp
+	<iostream>
+	"../Inheritance.h"
+	"../InheritanceDaughter.h"
+
+1554414619 source:/home/duck/Lau/KU/Blok 4/C++/TestWorkSpaceFolder/inheritanceMain.cpp
+	<iostream>
+	"Inheritance.h"
+	"InheritanceDaughter.h"
+

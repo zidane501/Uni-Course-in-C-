@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cassert>
+#include <limits>
 // #include <math.h>
 // #include <vector>
 // #include <iomanip>
@@ -117,22 +118,40 @@ void P_matrix(double **P, int n, int row1, int row2){
 };
 
 void guassian_elimination(double **A, double *b, double *u, int n){
-    
+/* 
+    A[0][0] = 0;  A[0][1] =  1;  A[0][2] =  1; A[0][3] = -2; 
+    A[1][0] = 1;  A[1][1] =  2;  A[1][2] = -1; A[1][3] =  0;
+    A[2][0] = 2;  A[2][1] =  4;  A[2][2] =  1; A[2][3] = -3;
+    A[3][0] = 1;  A[3][1] = -4;  A[3][2] = -7; A[3][3] = -1;
+
+    v[0] =  -3; 
+    v[1] =   2; 
+    v[2] =  -2;
+    v[3] = -19;
+*/
 
     /////////////////////////////////////////////////
     double M_i0;
     double A_ij;
     double b_i;
-    int matrixSize; // used for switching rows
-    int row1, row2; // used for switching rows
-    double A_ik_max = 0;
+    int matrixSize; // used for switching rows 
+    int row2; // used for switching rows
+    double A_ik_max;
 
     matrixPrintOut(A, n, "A");
 
     for(int k = 1; k < n; k++){
         // Check for zero index and switch rows
+        std::cout << "New Round: k-1: " << k-1 << std::endl;
+        std::cout << "A[k-1][k-1]: " << A[k-1][k-1] << std::endl;
+        
         if(A[k-1][k-1]==0){
-            matrixSize = n-k; // // cout << "matrixSize: " << matrixSize  << std::endl;
+            A_ik_max = -std::numeric_limits<double>::max();
+
+            matrixSize = n-k+1;
+            
+            std::cout << "matrixSize: " << matrixSize  << std::endl;
+
             // Creation:
             double** P = new double* [matrixSize];
             double** newA = new double* [matrixSize];
@@ -145,49 +164,62 @@ void guassian_elimination(double **A, double *b, double *u, int n){
             }//
             //////////////////////
             // find row2 to switch with row0
-            for (int i = 0; i < matrixSize; i++)
+            for (int i = 1; i < matrixSize; i++)
             {
-                if (A[i][k-1]*A[i][k-1]>A_ik_max*A_ik_max)
+                if (A[i][k-1]*A[i][k-1]>A_ik_max)
                 {
                     row2 = i;
                     A_ik_max = A[i][k-1];
                 }
                 
             }
-            
+            std::cout << "Row2: " << row2  << std::endl;
+            // Switch rows in b-vector
+            double b1 = b[k-1];
+            double b2 = b[row2];
             
             // Create new matrix to multiply with P-matrix
-            for (int a = k-1; a < matrixSize; a++)
+            for (int a = 0; a < matrixSize; a++)
             {
                 
-                for (int b = k-1; b < matrixSize; b++)
+                for (int b = 0; b < matrixSize; b++)
                 {
                     //// cout << "a: " << a << " b: " << b << std::endl;
                     //// cout << "a-(k-1): " << a-(k-1) << " b-(k-1): " << b-(k-1) << std::endl;
 
-                    newA[a][b] = A[a-(k-1)][b-(k-1)];
+                    newA[a][b] = A[a+(k-1)][b+(k-1)];
                     
                     //// cout << "DB" << std::endl;
                 }    
             }
-
-            // Create P-matrix
-            P_matrix(P, n, 0, row2);
-            // Multiply P with newA
             matrixPrintOut(newA, matrixSize, "newA");
+            // Create P-matrix
+            P_matrix(P, matrixSize, 0, row2);
+            // Multiply P with newA
             Multiply1(newAafter, P, newA, matrixSize, matrixSize, matrixSize, matrixSize);
-            matrixPrintOut(newAafter, matrixSize, "newA");
+            matrixPrintOut(newAafter, matrixSize, "newAafter");
             //// cout << "Debugger 1" << std::endl;
             
             // return newA to A
-            for (int a = k-1; a < matrixSize; a++)
+            for (int a = k-1; a < n; a++)
             {
-                for (int b = k-1; b < matrixSize; b++)
+                for (int b = k-1; b < n; b++)
                 {
                     A[a][b] = newAafter[a-(k-1)][b-(k-1)];
                 }
             }
             matrixPrintOut(A,n,"A");
+
+            std::cout << "b[0]: " << b[0]  << std::endl;
+            std::cout << "b[1]: " << b[1]  << std::endl;
+            std::cout << "b[2]: " << b[2]  << std::endl;
+            std::cout << "b[3]: " << b[3]  << std::endl;
+            b[row2] = b1;
+            b[k-1] = b2;
+            std::cout << "b[0]: " << b[0]  << std::endl;
+            std::cout << "b[1]: " << b[1]  << std::endl;
+            std::cout << "b[2]: " << b[2]  << std::endl;
+            std::cout << "b[3]: " << b[3]  << std::endl;
 
             // // cout << "Debugger 2" << std::endl;
             //////////////////////
@@ -204,19 +236,49 @@ void guassian_elimination(double **A, double *b, double *u, int n){
 
         }
         // Continue with finding matrix solutions
+        std::cout << "Continue with finding matrix solutions (creating zeros under index ii):" << std::endl;
+
+        std::cout << "b[0]: " << b[0]  << std::endl;
+        std::cout << "b[1]: " << b[1]  << std::endl;
+        std::cout << "b[2]: " << b[2]  << std::endl;
+        std::cout << "b[3]: " << b[3]  << std::endl;
+        matrixPrintOut(A, n, "A before:");
+
+        
+        double A00 = A[k-1][k-1];
+                for (int j = k-1; j < n; j++)
+        {
+            std::cout << "A[k-1][j] before: " << A[k-1][j] << std::endl;
+            A[k-1][j] = A[k-1][j]/A00;
+            std::cout << "A[k-1][j] after:" << A[k-1][j] << std::endl;  
+        }
+        
+        b[k-1] = b[k-1]/A00;
+        
+        matrixPrintOut(A, n, "A normalized:");
+        std::cout << "b[k-1] " << b[k-1] << std::endl;
+
         for(int i = k; i < n; i++){
 
             M_i0 = A[i][k-1]/A[k-1][k-1];
 //            // cout << "M_i0: " << M_i0 << std::endl;
 
             for(int j = k-1; j < n; j++){
-                A[i][j] = A[i][j] - M_i0 * A[k-1][j];
+                A[i][j] = A[i][j] - M_i0 * A[k-1][j]; // Line[i] - M_ij*Line[k-1] (k-1 being the first line in the remaining matrix)
+                // Puts zero everywhere under the first column.
 //                // cout << "A_" << i << "," << j << ": " << A[i][j] << std::endl;
                 //A[i][j] = A_ij;
             }
             b[i] = b[i]-M_i0*b[k-1];
             //// cout << "b_" << i << ": " << b[i] << std::endl;
         }
+        matrixPrintOut(A, n, "A");
+        
+        std::cout << "b[0]: " << b[0]  << std::endl;
+        std::cout << "b[1]: " << b[1]  << std::endl;
+        std::cout << "b[2]: " << b[2]  << std::endl;
+        std::cout << "b[3]: " << b[3]  << std::endl;
+
     }
     // Valgrind checks for memory leaks
 

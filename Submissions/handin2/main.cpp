@@ -88,15 +88,20 @@ void assignment_6_1_6(){
     std::cout << "Im   = " << z1.GetImaginaryPart() << std::endl;
 }
 
-int main(int argc, char * argv[])
-{
-    //assignment_6_1_1();
-    //assignment_6_1_2();
-    //assignment_6_1_3();
-    //assignment_6_1_4();
-    //assignment_6_1_5();
-    //assignment_6_1_6();
+void assignment_6_1_7(){
 
+}
+int main(int argc, char * argv[])
+{   
+    //Assignment 6.1-6:
+        //assignment_6_1_1();
+        //assignment_6_1_2();
+        //assignment_6_1_3();
+        //assignment_6_1_4();
+        //assignment_6_1_5();
+        //assignment_6_1_6();
+    
+    //Assignment 6.7:
 
 
 return 0;

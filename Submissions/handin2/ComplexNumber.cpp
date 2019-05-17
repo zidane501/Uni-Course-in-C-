@@ -102,4 +102,41 @@ output << "- " << -z.mImaginaryPart << "i)";
 }
 return output;
 }
+///////////////////////////////////////////////
+// Access private members
+double ComplexNumber::GetRealPart() const {
+    return mRealPart;
+}
 
+double ComplexNumber::GetImaginaryPart() const {
+    return mImaginaryPart;
+}
+
+// Friend function
+double RealPart(const ComplexNumber& z) {
+    return z.GetRealPart();
+}
+
+double ImaginaryPart(const ComplexNumber& z) {
+    return z.GetImaginaryPart();
+}
+
+// Copy Constructor
+ComplexNumber::ComplexNumber(const ComplexNumber& z){
+    std::cout << "This is a copy constructor" << std::endl;
+};
+
+// Set real part to real and Imaginary part to 0
+ComplexNumber::ComplexNumber(double real){
+    this->mRealPart = real;
+    this->mImaginaryPart = 0;
+};
+
+ComplexNumber ComplexNumber::CalculateConjugate() const{
+    ComplexNumber z( this->mRealPart, -this->mImaginaryPart );
+    return z;
+};
+
+void ComplexNumber::SetConjugate(){
+    this->mImaginaryPart = -this->mImaginaryPart;
+};

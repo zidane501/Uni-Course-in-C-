@@ -35,6 +35,6 @@ class ComplexNumber
 
 };
 
-void assignment6_7();
+
 
 #endif

@@ -1,7 +1,7 @@
-    #include "ComplexNumber.hpp"
+#include "ComplexNumber.hpp"
 #include <cmath>
 // Override default constructor
-// Set real and imaginary parts to zero6.4 A Second Example Class: A Class of Complex Numbers
+// Set real and imaginary parts to zero 6.4 A Second Example Class: A Class of Complex Numbers
 
 ComplexNumber::ComplexNumber()
 {
@@ -102,3 +102,4 @@ output << "- " << -z.mImaginaryPart << "i)";
 }
 return output;
 }
+

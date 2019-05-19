@@ -50,57 +50,56 @@ return z;
 ComplexNumber& ComplexNumber::
 operator=(const ComplexNumber& z)
 {
-mRealPart = z.mRealPart;
-mImaginaryPart = z.mImaginaryPart;
-return * this;
+    mRealPart = z.mRealPart;
+    mImaginaryPart = z.mImaginaryPart;
+    return * this;
 }
 
 // Overloading the unary - operator
 ComplexNumber ComplexNumber::operator-() const
 {
-ComplexNumber w;
-w.mRealPart = -mRealPart;
-w.mImaginaryPart = -mImaginaryPart;
-return w;
+    ComplexNumber w;
+    w.mRealPart = -mRealPart;
+    w.mImaginaryPart = -mImaginaryPart;
+    return w;
 }
 
 // Overloading the binary + operator
 ComplexNumber ComplexNumber::
 operator+(const ComplexNumber& z) const
 {
-ComplexNumber w;
-w.mRealPart = mRealPart + z.mRealPart;
-w.mImaginaryPart = mImaginaryPart + z.mImaginaryPart;
-return w;
+    ComplexNumber w;
+    w.mRealPart = mRealPart + z.mRealPart;
+    w.mImaginaryPart = mImaginaryPart + z.mImaginaryPart;
+    return w;
 }
 
 // Overloading the binary - operator
 ComplexNumber ComplexNumber::
 operator-(const ComplexNumber& z) const
 {
-ComplexNumber w;
-w.mRealPart = mRealPart - z.mRealPart;
-w.mImaginaryPart = mImaginaryPart - z.mImaginaryPart;
-return w;
+    ComplexNumber w;
+    w.mRealPart = mRealPart - z.mRealPart;
+    w.mImaginaryPart = mImaginaryPart - z.mImaginaryPart;
+    return w;
 }
 
 // Overloading the insertion << operator
 std::ostream& operator<<(std::ostream& output,
 const ComplexNumber& z)
 {
-// Format as "(a + bi)" or as "(a - bi)"
-output << "(" << z.mRealPart << " ";
-if (z.mImaginaryPart >= 0.0)
-{
-output << "+ " << z.mImaginaryPart << "i)";
-}
-else
-{
-// z.mImaginaryPart < 0.0
-// Replace + with minus sign
-output << "- " << -z.mImaginaryPart << "i)";
-}
-return output;
+    // Format as "(a + bi)" or as "(a - bi)"
+    output << "(" << z.mRealPart << " ";
+    
+    if (z.mImaginaryPart >= 0.0){
+        output << "+ " << z.mImaginaryPart << "i)";
+    }
+    else{
+        // z.mImaginaryPart < 0.0
+        // Replace + with minus sign
+        output << "- " << -z.mImaginaryPart << "i)";
+    }
+    return output;
 }
 ///////////////////////////////////////////////
 // Access private members
@@ -139,4 +138,14 @@ ComplexNumber ComplexNumber::CalculateConjugate() const{
 
 void ComplexNumber::SetConjugate(){
     this->mImaginaryPart = -this->mImaginaryPart;
+};
+
+ComplexNumber ComplexNumber::
+operator*(const ComplexNumber& z) const{
+    ComplexNumber w;
+    
+    w.mRealPart = mRealPart*z.mRealPart - mImaginaryPart*z.mImaginaryPart;
+    w.mImaginaryPart = mImaginaryPart*z.mRealPart + mRealPart*z.mImaginaryPart;
+    
+    return w;
 };

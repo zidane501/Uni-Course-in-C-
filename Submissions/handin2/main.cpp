@@ -1,6 +1,7 @@
 
 #include "ComplexNumber.hpp"
-
+#include "CalculateExponential.hpp"
+#include <string>
 
 void assignment_6_1_1(){
 
@@ -88,9 +89,38 @@ void assignment_6_1_6(){
     std::cout << "Im   = " << z1.GetImaginaryPart() << std::endl;
 }
 
-void assignment_6_1_7(){
-
+void assignment_6_1_6_extra(){
+    ComplexNumber z(1,2), w(2,-1), v;
+    v = z*w;
+    std::cout << "v Real = " << v.GetRealPart() << std::endl;
+    std::cout << "v Im   = " << v.GetImaginaryPart() << std::endl;
 }
+void assignment_6_1_7(){
+    
+    // Creation
+    int n = 3;
+    ComplexNumber** A = new ComplexNumber* [n];
+    ComplexNumber** res = new ComplexNumber* [n];
+    for (int i=0; i<n; i++){
+        A[i] = new ComplexNumber[n]; // used to calc A^n
+        res[i] = new ComplexNumber[n];
+    }
+    ////////////
+    
+    CalculateExponential(A, 3, res);
+
+    // Deletion
+    for (int i=0; i<n; i++)
+    {
+        delete[] A[i];
+        delete[] res[i];
+    }
+
+    delete[] A;
+    delete[] res;
+}
+
+
 int main(int argc, char * argv[])
 {   
     //Assignment 6.1-6:
@@ -100,9 +130,9 @@ int main(int argc, char * argv[])
         //assignment_6_1_4();
         //assignment_6_1_5();
         //assignment_6_1_6();
-    
+        assignment_6_1_6_extra();
     //Assignment 6.7:
-
+        //assignment_6_1_7();
 
 return 0;
 }

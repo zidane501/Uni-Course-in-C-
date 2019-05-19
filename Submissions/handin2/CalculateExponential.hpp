@@ -5,8 +5,7 @@
 
 void CalculateExponential(ComplexNumber **A, int nMax, ComplexNumber **res);
 
-
 //non mandatory
-void printMatrix(ComplexNumber **A, int rows, int cols);
+void printMatrix(ComplexNumber **A, int rows, int cols, std::string name);
 
 #endif

@@ -5,30 +5,30 @@
 
 ComplexNumber::ComplexNumber()
 {
-mRealPart = 0.0;
-mImaginaryPart = 0.0;
+    mRealPart = 0.0;
+    mImaginaryPart = 0.0;
 }
 
 // Constructor that sets complex number z=x+iy
 ComplexNumber::ComplexNumber(double x, double y)
 {
-mRealPart = x;
-mImaginaryPart = y;
+    mRealPart = x;
+    mImaginaryPart = y;
 }
 
 // Method for computing the modulus of a
 // complex number
 double ComplexNumber::CalculateModulus() const
 {
-return sqrt(mRealPart*mRealPart+
-mImaginaryPart*mImaginaryPart);
+    return sqrt(mRealPart*mRealPart+
+                mImaginaryPart*mImaginaryPart);
 }
 
 // Method for computing the argument of a
 // complex number
 double ComplexNumber::CalculateArgument() const
 {
-return atan2(mImaginaryPart, mRealPart);
+    return atan2(mImaginaryPart, mRealPart);
 }
 
 // Method for raising complex number to the power n
@@ -36,14 +36,14 @@ return atan2(mImaginaryPart, mRealPart);
 // number must be converted to polar form
 ComplexNumber ComplexNumber::CalculatePower(double n) const
 {
-double modulus = CalculateModulus();
-double argument = CalculateArgument();
-double mod_of_result = pow(modulus, n);
-double arg_of_result = argument*n;
-double real_part = mod_of_result*cos(arg_of_result);
-double imag_part = mod_of_result*sin(arg_of_result);
-ComplexNumber z(real_part, imag_part);
-return z;
+    double modulus = CalculateModulus();
+    double argument = CalculateArgument();
+    double mod_of_result = pow(modulus, n);
+    double arg_of_result = argument*n;
+    double real_part = mod_of_result*cos(arg_of_result);
+    double imag_part = mod_of_result*sin(arg_of_result);
+    ComplexNumber z(real_part, imag_part);
+    return z;
 }
 
 // Overloading the = (assignment) operator
@@ -122,7 +122,8 @@ double ImaginaryPart(const ComplexNumber& z) {
 
 // Copy Constructor
 ComplexNumber::ComplexNumber(const ComplexNumber& z){
-    std::cout << "This is a copy constructor" << std::endl;
+    mRealPart = z.GetRealPart();
+    mImaginaryPart = z.GetImaginaryPart();
 };
 
 // Set real part to real and Imaginary part to 0

@@ -1,6 +1,8 @@
 
 #include "ComplexNumber.hpp"
 #include "CalculateExponential.hpp"
+#include "Matrix2x2.hpp"
+
 #include <string>
 
 void assignment_6_1_1(){
@@ -118,8 +120,42 @@ void assignment_6_1_7(){
 
     delete[] A;
     delete[] res;
-}
+}   
 
+void assignment_6_2(){
+    
+    Matrix2x2 m(1,2,3,4);
+    
+    std::cout << "m : " << std::endl;
+    m.Print();
+    std::cout << "Determinant m = " << m.CalcDeterminant() << "\n"<< std::endl;
+    
+    Matrix2x2 inv = m.CalcInverse();
+    std::cout << "inverse m : " << std::endl;
+    inv.Print();
+
+    Matrix2x2 m1;
+    m1 = m;
+    std::cout << "m1 = m: " << std::endl;
+    m1.Print();
+
+    Matrix2x2 m2;
+    m2 = -m;
+    std::cout << "m2 = -m: " << std::endl;
+    m2.Print();
+
+    Matrix2x2 m3;
+    m3 = m + m;
+    std::cout << "m + m = " << std::endl;
+    m3.Print();    
+
+    Matrix2x2 m4;
+    m4 = m3 - m2;
+    std::cout << "m3 - m2 = " << std::endl;
+    m4.Print();    
+
+
+}
 
 int main(int argc, char * argv[])
 {   
@@ -130,9 +166,13 @@ int main(int argc, char * argv[])
         //assignment_6_1_4();
         //assignment_6_1_5();
         //assignment_6_1_6();
-        assignment_6_1_6_extra();
-    //Assignment 6.7:
+        //assignment_6_1_6_extra();
+    
+    //Assignment 6.1.7:
         //assignment_6_1_7();
-
+    
+    //Assignment 6.2:
+        assignment_6_2();
+        
 return 0;
 }

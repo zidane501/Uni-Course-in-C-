@@ -3,10 +3,10 @@
 
 void matrixComplAdd( ComplexNumber **A, ComplexNumber  **B, int n, ComplexNumber **res){
 
-    for (int i = 0; i < 3n; i++){
+    for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             
-            res[i,j] = A[i][j] + B[i][j];
+            //res[i,j] = A[i][j] + B[i][j];
         }
     }
 }
@@ -43,7 +43,7 @@ void multiplyCompl( ComplexNumber **A, ComplexNumber z, int n, ComplexNumber **r
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             
-            res[i,j] = A[i][j]*z;
+            //res[i,j] = A[i][j]*z;
         }
     }
 }

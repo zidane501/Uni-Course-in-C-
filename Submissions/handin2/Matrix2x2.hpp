@@ -18,9 +18,9 @@ class Matrix2x2 {
 		Matrix2x2 CalcInverse() const;
 
 		Matrix2x2& operator=(const Matrix2x2& z);
-		Matrix2x2 operator-() const;
-		Matrix2x2 operator+(const Matrix2x2& z) const;
-		Matrix2x2 operator-(const Matrix2x2& z) const;
+		Matrix2x2  operator-() const;
+		Matrix2x2  operator+(const Matrix2x2& z) const;
+		Matrix2x2  operator-(const Matrix2x2& z) const;
 
 		void MultScalar(double scalar);
 

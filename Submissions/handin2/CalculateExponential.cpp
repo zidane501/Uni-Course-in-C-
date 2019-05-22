@@ -1,4 +1,5 @@
 #include "ComplexNumber.hpp"
+#include "CalculateExponential.hpp"
 #include <string>
 
 void matrixComplAdd( ComplexNumber **A, ComplexNumber  **B, int n, ComplexNumber **res){
@@ -6,7 +7,7 @@ void matrixComplAdd( ComplexNumber **A, ComplexNumber  **B, int n, ComplexNumber
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             
-            //res[i,j] = A[i][j] + B[i][j];
+            res[i][j] = A[i][j] + B[i][j];
         }
     }
 }
@@ -30,20 +31,22 @@ void multiplyCompl( ComplexNumber **A, ComplexNumber **B, int n, ComplexNumber *
             // Create intermediate matrix to "save" values of A^n
             res[i][j] = res_ij; 
             //// cout << res_ij << " " << res[i][j] << std::endl;
+            
         }
     }
     
 };
 
-int factorial(int n){
-  return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
+int factorial(int n_i){
+  return (n_i == 1 || n_i == 0) ? 1 : factorial(n_i - 1) * n_i;
 }
 
 void multiplyCompl( ComplexNumber **A, ComplexNumber z, int n, ComplexNumber **res){
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             
-            //res[i,j] = A[i][j]*z;
+            res[i][j] = A[i][j]*z;
+            std::cout << "A[i][j]*z: " << A[i][j] << "*" << z << std::endl;
         }
     }
 }
@@ -62,14 +65,28 @@ void CalculateExponential(ComplexNumber **A, int nMax, ComplexNumber **res){
         newRes[i] = new ComplexNumber[n]; // used to calc A^n
         resN[i] = new ComplexNumber[n];
     }
-
+    
     ////////////
-    for (int n_i = 1; n_i < nMax; n_i++){ // for each led in the sum
+
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            newRes[i][j] = A[i][j]; 
+        }        
+    }
+
+    res[0][0] = res[0][0] + ComplexNumber(1,0);
+    res[1][1] = res[1][1] + ComplexNumber(1,0);
+    res[2][2] = res[2][2] + ComplexNumber(1,0);
+    
+    printMatrix(res,n,n, "Identity");
+    
+    matrixComplAdd(res, A, n, res);
+
+    for (int n_i = 2; n_i < nMax; n_i++){ // for each led in the sum
         
-        for (int mp_i = 1; mp_i < n_i; mp_i++){ // mp A*A*A*A... to create each led
-            
-            multiplyCompl(A, newRes, n, resN); 
-            
+        for (int mp_i = 2; mp_i < n_i; mp_i++){ // mp A*A*A*A... to create each led
+
+            multiplyCompl(A, newRes, n, resN);    
             // Put values back into newRes
             for(int i = 0; i < n; i++){
                 for(int j = 0; j < n; j++){
@@ -78,9 +95,12 @@ void CalculateExponential(ComplexNumber **A, int nMax, ComplexNumber **res){
             }
 
         }
-        multiplyCompl(newRes,factorial(n_i), n, newRes);
+        multiplyCompl(newRes,ComplexNumber(1/factorial(n_i),0), n, newRes);
         matrixComplAdd(res,newRes, n, res);
+        printMatrix(res, 3,3, "res");
     }
+    
+    
     ////////////
     // Deletion
     for (int i=0; i<n; i++)

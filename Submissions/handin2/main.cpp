@@ -108,9 +108,20 @@ void assignment_6_1_7(){
         res[i] = new ComplexNumber[n];
     }
     ////////////
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            A[i][j] = ComplexNumber((double)i, (double)j);
+            res[i][j] = ComplexNumber((double)0, (double)0);
+        }
+        
+    }
     
     CalculateExponential(A, 3, res);
-
+    std::cout << "Calculate exponential of A. Res:" << ":" << std::endl;
+    std::cout << res[0][0] << " " << res[0][1] << " " << res[0][2] << std::endl;
+    std::cout << res[1][0] << " " << res[1][1] << " " << res[1][2] << std::endl;
+    std::cout << res[2][0] << " " << res[2][1] << " " << res[2][2] << std::endl;
+    
     // Deletion
     for (int i=0; i<n; i++)
     {
@@ -157,6 +168,9 @@ void assignment_6_2(){
 
 }
 
+void assignment_7_1(){
+    
+}
 int main(int argc, char * argv[])
 {   
     //Assignment 6.1-6:
@@ -169,10 +183,10 @@ int main(int argc, char * argv[])
         //assignment_6_1_6_extra();
     
     //Assignment 6.1.7:
-        //assignment_6_1_7();
+        assignment_6_1_7();
     
     //Assignment 6.2:
-        assignment_6_2();
+        //assignment_6_2();
         
 return 0;
 }

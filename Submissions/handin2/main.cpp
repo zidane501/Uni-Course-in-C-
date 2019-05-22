@@ -99,6 +99,7 @@ void assignment_6_1_6_extra(){
 }
 void assignment_6_1_7(){
     
+    ////////////
     // Creation
     int n = 3;
     ComplexNumber** A = new ComplexNumber* [n];
@@ -107,23 +108,28 @@ void assignment_6_1_7(){
         A[i] = new ComplexNumber[n]; // used to calc A^n
         res[i] = new ComplexNumber[n];
     }
+    
     ////////////
+    ////////////
+
+    // Create test matrix A and set res = 0:
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             if(i==j){
-                A[i][j] = ComplexNumber((double)4, (double)2);
-
+                A[i][j] = ComplexNumber((double)4, (double)-j);
             }else{
-                A[i][j] = ComplexNumber((double)3, (double)15);
+                A[i][j] = ComplexNumber((double)9, (double)11+j);
             }
-            
-            res[i][j] = ComplexNumber((double)0, (double)0);
-        }
-        
+            //res[i][j] = ComplexNumber((double)0, (double)0);
+        }   
     }
     
-    calcPowMatrix(A,3,res);
-//    CalculateExponential(A, 4, res);
+    double m = 3;
+    //calcPowMatrix(A,m,res);
+    
+    std::cout << "\nFactorial "<< m << ": " << factorial(m) << std::endl;
+
+    CalculateExponential(A, 80, res);
     std::cout << "\nResult in Main(): Calculate exponential of A. Res:" << ":" << std::endl;
     std::cout << res[0][0] << " " << res[0][1] << " " << res[0][2] << std::endl;
     std::cout << res[1][0] << " " << res[1][1] << " " << res[1][2] << std::endl;

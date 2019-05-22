@@ -50,49 +50,52 @@ void multiplyCompl( ComplexNumber **A, ComplexNumber z, int n, ComplexNumber **r
     }
 }
 
+//////////////////////////////////////////////
+
 void calcPowMatrix(ComplexNumber **A, int n_i, ComplexNumber **res){
     // Calculates A^n
 
     int n = 3;
     ////////////
     // Creation
-    ComplexNumber** newRes = new ComplexNumber* [n];
+    ComplexNumber** resN = new ComplexNumber* [n];
     for (int i=0; i<n; i++){
-        newRes[i] = new ComplexNumber[n]; // used to calc A^n
+        resN[i] = new ComplexNumber[n]; // used to calc A^n
     }
 
     for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
-            newRes[i][j] = A[i][j]; 
+            resN[i][j] = A[i][j]; 
         }
     }
     ////////////
 
-    for (int k = 1; k < n; k++){ // mp A*A*A*A... to create each led
+    for (int k = 1; k < n_i; k++){ // mp A*A*A*A... to create each led
             
-            std::cout << "n_i = " << n_i << std::endl;
-            
-            //printMatrix(newRes,3,3,"newRes:");
-            
-            multiplyCompl(A, newRes, n, res);    
-            
-            printMatrix(res,3,3,"pow Res:");
-            
-            // Put values back into newRes
-            for(int i = 0; i < n; i++){
-                for(int j = 0; j < n; j++){
-                    newRes[i][j] = res[i][j]; 
-                }
+        //std::cout << "k = " << k << std::endl;
+        
+        //printMatrix(resN,3,3,"resN:");
+        
+        multiplyCompl(A, resN, n, res);    
+        
+        //printMatrix(res,3,3,"pow Res:");
+        
+        // Put values back into resN
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                resN[i][j] = res[i][j]; 
             }
+        }
     }
     ////////////
     // Deletion
     for (int i=0; i<n; i++)
     {
-        delete[] newRes[i];
+        delete[] resN[i];
     }
-    delete[] newRes;
+    delete[] resN;
 }
+
 //////////////////////////////////
 
 double factorial(double n_i){
@@ -130,30 +133,30 @@ void CalculateExponential(ComplexNumber **A, int nMax, ComplexNumber **res){
     res[2][2] = res[2][2] + ComplexNumber(1,0);
     
     // n = 0;
-    std::cout << "n_i = " << 0 << std::endl;
-    printMatrix(res,n,n, "**res for n = 0:");
+    //std::cout << "n_i = " << 0 << std::endl;
+    //printMatrix(res,n,n, "**res for n = 0:");
     
     matrixComplAdd(res, A, n, res);
     
     // n = 1;
     std::cout << "n_i = " << 0 << std::endl;
-    printMatrix(res,n,n, "**res for n = 1:");
+    //printMatrix(res,n,n, "**res for n = 1:");
 
     for (int n_i = 2; n_i < nMax; n_i++){ // for hvert led i summen
         
         calcPowMatrix(A,n_i, newRes);
-        std::cout << "ComplexNumber(1.0/factorial(n_i),0): " << ComplexNumber(1.0/factorial(n_i),0) <<
-        " | factorial(n_i): " << factorial(n_i) << " | n_i: " << n_i << std::endl;
+        //std::cout << "ComplexNumber(1.0/factorial(n_i),0): " << ComplexNumber(1.0/factorial(n_i),0) <<
+        //" | factorial(n_i): " << factorial(n_i) << " | n_i: " << n_i << std::endl;
 
         //printMatrix(newRes,n,n, "newRes before 1/factorial");
         multiplyCompl(newRes,ComplexNumber(1.0/factorial(n_i),0), n, newRes);
         
-        printMatrix(newRes,n,n, "newRes after 1/factorial");
+        //printMatrix(newRes,n,n, "newRes after 1/factorial");
 
         matrixComplAdd(res,newRes, n, res);
 
-        std::cout << "**res for n = " << n_i << std::endl;
-        printMatrix(res,n,n, "**res");
+        //std::cout << "**res for n = " << n_i << std::endl;
+        //printMatrix(res,n,n, "**res");
     }
     
     

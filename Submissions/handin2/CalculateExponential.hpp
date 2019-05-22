@@ -15,4 +15,6 @@ void multiplyCompl( ComplexNumber **A, ComplexNumber z, int n, ComplexNumber **r
 
 void calcPowMatrix(ComplexNumber **A, int n_i, ComplexNumber **res);
 
+double factorial(double n_i);
+
 #endif

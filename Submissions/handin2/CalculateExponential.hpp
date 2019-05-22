@@ -13,4 +13,6 @@ void matrixComplAdd(ComplexNumber **A, ComplexNumber  **B, int n, ComplexNumber 
 
 void multiplyCompl( ComplexNumber **A, ComplexNumber z, int n, ComplexNumber **res);
 
+void calcPowMatrix(ComplexNumber **A, int n_i, ComplexNumber **res);
+
 #endif

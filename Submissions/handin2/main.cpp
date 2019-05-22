@@ -110,14 +110,21 @@ void assignment_6_1_7(){
     ////////////
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
-            A[i][j] = ComplexNumber((double)i, (double)j);
+            if(i==j){
+                A[i][j] = ComplexNumber((double)4, (double)2);
+
+            }else{
+                A[i][j] = ComplexNumber((double)3, (double)15);
+            }
+            
             res[i][j] = ComplexNumber((double)0, (double)0);
         }
         
     }
     
-    CalculateExponential(A, 3, res);
-    std::cout << "Calculate exponential of A. Res:" << ":" << std::endl;
+    calcPowMatrix(A,3,res);
+//    CalculateExponential(A, 4, res);
+    std::cout << "\nResult in Main(): Calculate exponential of A. Res:" << ":" << std::endl;
     std::cout << res[0][0] << " " << res[0][1] << " " << res[0][2] << std::endl;
     std::cout << res[1][0] << " " << res[1][1] << " " << res[1][2] << std::endl;
     std::cout << res[2][0] << " " << res[2][1] << " " << res[2][2] << std::endl;
@@ -134,7 +141,7 @@ void assignment_6_1_7(){
 }   
 
 void assignment_6_2(){
-    
+
     Matrix2x2 m(1,2,3,4);
     
     std::cout << "m : " << std::endl;

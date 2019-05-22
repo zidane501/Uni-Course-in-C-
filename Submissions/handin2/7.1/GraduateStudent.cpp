@@ -9,5 +9,9 @@ GraduateStudent::GraduateStudent(std::string name, double fines, double fees, bo
     this->fines         = fines;
     this->tuition_fees  = fees;
     this->fullTime      = fullTime;
+    this->
 }
 
+double GraduateStudent::MoneyOwed() const{
+    
+}

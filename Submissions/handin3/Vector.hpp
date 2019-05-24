@@ -22,7 +22,6 @@ public:
 	Vector<T> operator-(const Vector<T>& v1) const; // binary -
 	
 	// scalar multiplication
-	template<typename T>
 	Vector<T> operator*(double a) const; // QUESTION: HOW TO MAKE THE ARGUMENTS TEMPLATES???
 	
 	// p-norm method

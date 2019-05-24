@@ -3,29 +3,38 @@
 #include "Vector.hpp"
 
 template<typename T>
-class Matrix
-{
+class Matrix{
 private:
-	double** mData; // entries of matrix
+
+	T** mData; // entries of matrix
 	int mNumRows, mNumCols; // dimensions
+
 public:
+
 	Matrix(const Matrix& otherMatrix);
 	Matrix(int numRows, int numCols);
+
 	~Matrix();
-	T GetNumberOfRows() const;
-	T GetNumberOfColumns() const;
+
+	int GetNumberOfRows() const;
+	int GetNumberOfColumns() const;
+
 	T& operator()(int i, int j);
 	T const& operator()(int i, int j)const;
+
 	//overloaded assignment operator
-	Matrix& operator=(const Matrix& otherMatrix);
-	Matrix operator-() const; // unary -
-	Matrix operator+(const Matrix& m1) const; // binary +
-	Matrix operator-(const Matrix& m1) const; // binary -
+	Matrix<T>& operator=(const Matrix<T>& otherMatrix);
+	Matrix<T> operator-() const; // unary -
+	Matrix<T> operator+(const Matrix<T>& m1) const; // binary +
+	Matrix<T> operator-(const Matrix<T>& m1) const; // binary -
+
 	// scalar multiplication
-	Matrix operator*(double a) const;
+	Matrix<T> operator*(double a) const;
+
+	//matrix-vector multiplications
+	Vector<T> operator*(const Matrix<T>& m, const Vector<T>& v);
+	Vector<T> operator*(const Vector<T>& v, const Matrix<T>& m);
+
 };
-//matrix-vector multiplications
-Vector operator*(const Matrix& m, const Vector& v);
-Vector operator*(const Vector& v, const Matrix& m);
 
 #endif

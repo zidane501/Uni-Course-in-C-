@@ -2,7 +2,7 @@
 #include "ComplexNumber.hpp"
 #include "CalculateExponential.hpp"
 #include "Matrix2x2.hpp"
-
+#include "Exercise82.hpp"
 #include <string>
 
 void assignment_6_1_1(){
@@ -181,9 +181,18 @@ void assignment_6_2(){
 
 }
 
-void assignment_7_1(){
+void assignment_8_2(){
+
+    int t;
+    t = CalcAbs(-9.78);
+    
+    std::cout << "CalcAbs(-s): " << t << std::endl; 
+}
+void assignment_9_1(){
+
     
 }
+
 int main(int argc, char * argv[])
 {   
     //Assignment 6.1-6:
@@ -196,10 +205,16 @@ int main(int argc, char * argv[])
         //assignment_6_1_6_extra();
     
     //Assignment 6.1.7:
-        assignment_6_1_7();
+        //assignment_6_1_7();
     
     //Assignment 6.2:
         //assignment_6_2();
+    
+    //Assignment 8.2:
+        // assignment_8_2();
+    
+    //Assignment 9.1:
+        // assignment_9_1();
         
 return 0;
 }

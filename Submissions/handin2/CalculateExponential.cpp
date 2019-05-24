@@ -180,3 +180,9 @@ void printMatrix(ComplexNumber **A, int rows, int cols, std::string name){
         std::cout << A[1][0] << " " << A[1][1] << " " << A[1][2] << std::endl;
         std::cout << A[2][0] << " " << A[2][1] << " " << A[2][2] << std::endl;
 };
+
+/*
+4+0i 9+12i 9+13i
+9+11i 4-1i 9+13i
+9+11i 9+12i 4-2i
+*/

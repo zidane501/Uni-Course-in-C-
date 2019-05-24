@@ -3,7 +3,7 @@
 
 template<typename T>
 T CalcAbs(T val) {
-	// fill this out
+	return std::abs(val);
 }
 
 

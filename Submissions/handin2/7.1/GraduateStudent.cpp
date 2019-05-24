@@ -5,13 +5,16 @@ GraduateStudent::GraduateStudent(){
 }
 
 GraduateStudent::GraduateStudent(std::string name, double fines, double fees, bool fullTime){
-    this->name          = name;
-    this->fines         = fines;
-    this->tuition_fees  = fees;
-    this->fullTime      = fullTime;
-    this->
+    this->fullTime = fullTime;
 }
 
+void GraduateStudent::print(){
+    std::cout << name << std::endl;
+    std::cout << "fines: " << this->GetLibraryFines << std::endl;
+    //std::cout << "fees: " << this->fees << std::endl;
+    std::cout << "fullTime: " << this->fullTime << std::endl;
+ 
+}
 double GraduateStudent::MoneyOwed() const{
-    
+    return this->GetLibraryFines();
 }

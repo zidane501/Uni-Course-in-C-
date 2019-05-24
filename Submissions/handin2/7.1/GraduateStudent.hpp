@@ -11,6 +11,7 @@ class GraduateStudent : public Student {
 		GraduateStudent(std::string name, double fines, double fees, bool fullTime);
 		bool fullTime;
 		virtual double MoneyOwed() const;
+		void print();
 
 };
 

@@ -15,6 +15,7 @@ public:
 
 	void SetLibraryFines(double amount);
 	double GetLibraryFines() const;
+	void print() const;
 
 private:
 	double library_fines;

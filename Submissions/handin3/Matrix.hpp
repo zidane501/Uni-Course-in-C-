@@ -1,12 +1,13 @@
 #ifndef MATRIXHEADERDEF
 #define MATRIXHEADERDEF
+
 #include "Vector.hpp"
 
 template<typename T>
 class Matrix{
 private:
 
-	T** mData; // entries of matrix
+	T* mData; // entries of matrix
 	int mNumRows, mNumCols; // dimensions
 
 public:
@@ -18,6 +19,7 @@ public:
 
 	int GetNumberOfRows() const;
 	int GetNumberOfColumns() const;
+	int GetMatrixIndex(int i, int j) const ; // Added by me
 
 	T& operator()(int i, int j);
 	T const& operator()(int i, int j)const;
@@ -31,10 +33,14 @@ public:
 	// scalar multiplication
 	Matrix<T> operator*(double a) const;
 
-	//matrix-vector multiplications
-	Vector<T> operator*(const Matrix<T>& m, const Vector<T>& v);
-	Vector<T> operator*(const Vector<T>& v, const Matrix<T>& m);
 
 };
+
+//matrix-vector multiplications
+template<typename T>
+Vector<T> operator*(const Matrix<T>& m, const Vector<T>& v);
+
+template<typename T>
+Vector<T> operator*(const Vector<T>& v, const Matrix<T>& m);
 
 #endif

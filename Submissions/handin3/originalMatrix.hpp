@@ -1,32 +1,32 @@
-#ifndef MATRIXHEADERDEF
-#define MATRIXHEADERDEF
-#include "Vector.hpp"
+#ifndef originalMatrixHEADERDEF
+#define originalMatrixHEADERDEF
+#include "originalVector.hpp"
 
-class Matrix
+class originalMatrix
 {
 private:
-	double** mData; // entries of matrix
+	double** mData; // entries of originalMatrix
 	int mNumRows, mNumCols; // dimensions
 public:
-	Matrix(const Matrix& otherMatrix);
-	Matrix(int numRows, int numCols);
-	~Matrix();
+	originalMatrix(const originalMatrix& otheroriginalMatrix);
+	originalMatrix(int numRows, int numCols);
+	~originalMatrix();
 	int GetNumberOfRows() const;
 	int GetNumberOfColumns() const;
 	double& operator()(int i, int j);
 	double const& operator()(int i, int j)const;
 	
 	//overloaded assignment operator
-	Matrix& operator=(const Matrix& otherMatrix);
-	Matrix operator-() const; // unary -
-	Matrix operator+(const Matrix& m1) const; // binary +
-	Matrix operator-(const Matrix& m1) const; // binary -
+	originalMatrix& operator=(const originalMatrix& otheroriginalMatrix);
+	originalMatrix operator-() const; // unary -
+	originalMatrix operator+(const originalMatrix& m1) const; // binary +
+	originalMatrix operator-(const originalMatrix& m1) const; // binary -
 	
 	// scalar multiplication
-	Matrix operator*(double a) const;
+	originalMatrix operator*(double a) const;
 };
-//matrix-vector multiplications
-Vector operator*(const Matrix& m, const Vector& v);
-Vector operator*(const Vector& v, const Matrix& m);
+//originalMatrix-vector multiplications
+originalVector operator*(const originalMatrix& m, const originalVector& v);
+originalVector operator*(const originalVector& v, const originalMatrix& m);
 
 #endif

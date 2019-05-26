@@ -1,25 +1,25 @@
-#ifndef VECTORHEADERDEF
-#define VECTORHEADERDEF
+#ifndef originalVectorHEADERDEF
+#define originalVectorHEADERDEF
 
-class Vector
+class originalVector
 {
 private:
-	double* mData; // data stored in vector
-	int mSize; // size of vector
+	double* mData; // data stored in originalVector
+	int mSize; // size of originalVector
 public:
-	Vector(const Vector& otherVector);
-	Vector(int size);
-	~Vector();
+	originalVector(const originalVector& otheroriginalVector);
+	originalVector(int size);
+	~originalVector();
 	int size() const;
 	double& operator[](int i); // zero-based indexing
 	double const& operator[] (int i)const; // zero-based indexing
 	// assignment
-	Vector& operator=(const Vector& otherVector);
-	Vector operator-() const; // unary -
-	Vector operator+(const Vector& v1) const; // binary +
-	Vector operator-(const Vector& v1) const; // binary -
+	originalVector& operator=(const originalVector& otheroriginalVector);
+	originalVector operator-() const; // unary -
+	originalVector operator+(const originalVector& v1) const; // binary +
+	originalVector operator-(const originalVector& v1) const; // binary -
 	// scalar multiplication
-	Vector operator*(double a) const;
+	originalVector operator*(double a) const;
 	// p-norm method
 	double CalculateNorm(int p=2) const;
 };

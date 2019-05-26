@@ -1,25 +1,25 @@
 #include <cmath>
 #include <iostream>
 #include <cassert>
-#include "Vector.hpp"
+#include "originalVector.hpp"
 
 // Overridden copy constructor
-// Allocates memory for new vector, and copies
-// entries of other vector into it
-Vector::Vector(const Vector& otherVector)
+// Allocates memory for new originalVector, and copies
+// entries of other originalVector into it
+originalVector::originalVector(const originalVector& otheroriginalVector)
 {
-	mSize = otherVector.size();
+	mSize = otheroriginalVector.size();
 	mData = new double [mSize];
 	for (int i=0; i<mSize; i++)
 	{
-		mData[i] = otherVector.mData[i];
+		mData[i] = otheroriginalVector.mData[i];
 	}
 }
 
-// Constructor for vector of a given size
+// Constructor for originalVector of a given size
 // Allocates memory, and initialises entries
 // to zero
-Vector::Vector(int size)
+originalVector::originalVector(int size)
 {
 	assert(size > 0);
 	mSize = size;
@@ -31,13 +31,13 @@ Vector::Vector(int size)
 }
 
 // Overridden destructor to correctly free memory
-Vector::~Vector()
+originalVector::~originalVector()
 {
 	delete[] mData;
 }
 
-// Method to get the size of a vector
-int Vector::size() const
+// Method to get the size of a originalVector
+int originalVector::size() const
 {
 	return mSize;
 }
@@ -45,7 +45,7 @@ int Vector::size() const
 // Overloading square brackets
 // Note that this uses `zero-based' indexing,
 // and a check on the validity of the index
-double& Vector::operator[](int i)
+double& originalVector::operator[](int i)
 {
 	assert(i >= 0);
 	assert(i < mSize);
@@ -55,26 +55,26 @@ double& Vector::operator[](int i)
 // Overloading square brackets
 // Note that this uses `zero-based' indexing,
 // and a check on the validity of the index
-double const& Vector::operator[](int i)const{
+double const& originalVector::operator[](int i)const{
 	assert(i >= 0);
 	assert(i < mSize);
 	return mData[i];
 }
 
 // Overloading the assignment operator
-Vector& Vector::operator=(const Vector& otherVector){
-	assert(mSize == otherVector.mSize);
+originalVector& originalVector::operator=(const originalVector& otheroriginalVector){
+	assert(mSize == otheroriginalVector.mSize);
 	for (int i=0; i<mSize; i++)
 	{
-		mData[i] = otherVector.mData[i];
+		mData[i] = otheroriginalVector.mData[i];
 	}
 	return *this;
 }
 
 // Overloading the unary - operator
-Vector Vector::operator-() const
+originalVector originalVector::operator-() const
 {
-	Vector v(mSize);
+	originalVector v(mSize);
 	for (int i=0; i<mSize; i++)
 	{
 		v[i] = -mData[i];
@@ -83,10 +83,10 @@ Vector Vector::operator-() const
 }
 
 // Overloading the binary + operator
-Vector Vector::operator+(const Vector& v1) const
+originalVector originalVector::operator+(const originalVector& v1) const
 {
 	assert(mSize == v1.mSize);
-	Vector v(mSize);
+	originalVector v(mSize);
 	for (int i=0; i<mSize; i++)
 	{
 		v[i] = mData[i] + v1.mData[i];
@@ -95,10 +95,10 @@ Vector Vector::operator+(const Vector& v1) const
 }
 
 // Overloading the binary - operator
-Vector Vector::operator-(const Vector& v1) const
+originalVector originalVector::operator-(const originalVector& v1) const
 {
 	assert(mSize == v1.mSize);
-	Vector v(mSize);
+	originalVector v(mSize);
 	for (int i=0; i<mSize; i++)
 	{
 		v[i] = mData[i] - v1.mData[i];
@@ -107,9 +107,9 @@ Vector Vector::operator-(const Vector& v1) const
 }
 
 // Overloading scalar multiplication
-Vector Vector::operator*(double a) const
+originalVector originalVector::operator*(double a) const
 {
-	Vector v(mSize);
+	originalVector v(mSize);
 	for (int i=0; i<mSize; i++)
 	{
 		v[i] = a*mData[i];
@@ -119,7 +119,7 @@ Vector Vector::operator*(double a) const
 
 // Method to calculate norm (with default value p=2)
 // corresponding to the Euclidean norm
-double Vector::CalculateNorm(int p) const
+double originalVector::CalculateNorm(int p) const
 {
 	double norm_val, sum = 0.0;
 	for (int i=0; i<mSize; i++)

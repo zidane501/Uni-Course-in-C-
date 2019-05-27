@@ -2,8 +2,6 @@
 #include <cmath>
 
 
-
-Student::Student(){};
 Student::Student(std::string name, double fines, double fees){
     this->name = name;
     this->library_fines = fines;
@@ -17,7 +15,13 @@ double Student::MoneyOwed() const{
 };
 
 void Student::SetLibraryFines(double amount){
-    this->library_fines += abs(amount);
+    if (amount<0.0){
+        this->library_fines = 0.0;
+    }else{
+        this->library_fines = amount;
+    }
+    
+
 };
 
 double Student::GetLibraryFines() const{

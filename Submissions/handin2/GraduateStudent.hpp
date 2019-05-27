@@ -4,13 +4,14 @@
 #include "Student.hpp"
 
 class GraduateStudent : public Student {
-private:
+	private:
 
-public:
-	GraduateStudent();
-	GraduateStudent(std::string name, double fines, double fees, bool fullTime);
-	bool fullTime;
-	virtual double MoneyOwed() const;
+	public:
+		GraduateStudent();
+		GraduateStudent(std::string name, double fines, double fees, bool fullTime);
+		bool fullTime;
+		virtual double MoneyOwed() const;
+		void print();
 
 };
 

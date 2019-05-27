@@ -1,9 +1,10 @@
 
-#include "ComplexNumber.hpp"
-#include "CalculateExponential.hpp"
-#include "Matrix2x2.hpp"
+//#include "ComplexNumber.hpp"
+//#include "CalculateExponential.hpp"
+//#include "Matrix2x2.hpp"
 #include "Exercise82.hpp"
 #include <string>
+#include <iostream>
 
 void assignment_6_1_1(){
 
@@ -34,21 +35,23 @@ void assignment_6_1_1(){
 
     std::cout << "Second element of zs = " << zs[1] << "\n"<< std::endl;
 */
+/*
     ComplexNumber z1(4.0, 3.0);
     std::cout << "Real = " << z1.GetRealPart() << "\n"<< std::endl;
     std::cout << "Im   = " << z1.GetImaginaryPart() << "\n"<< std::endl;
-
+*/
 }
 
 void assignment_6_1_2(){
     /*Friend functions RealPart and ImaginaryPart so one may either write
     z.GetImaginaryPart() or ImaginaryPart(z).*/
-
+/*
     std::cout << "Problem 6.1.2" << std::endl;
 
     ComplexNumber z1(4.0, 3.0);
     std::cout << "Real = " << RealPart(z1) << std::endl;
     std::cout << "Im   = " << ImaginaryPart(z1) << std::endl;
+*/
 }
 
 void assignment_6_1_3(){
@@ -60,16 +63,19 @@ void assignment_6_1_4(){
     a constructor that accepts one double precision floating point variable as input,
     sets the real part of the complex number to the input variable, and the imaginary
     part to zero*/
+/* 
     std::cout << "Problem 6.1.4" << std::endl;
     double re = 4;
     ComplexNumber z1(re);
     std::cout << "Real = " << z1.GetRealPart() << std::endl;
     std::cout << "Im   = " << z1.GetImaginaryPart() << std::endl;
+*/
 }
 
 void assignment_6_1_5(){
     /*A const method CalculateConjugate which returns the complex conju-
     gate x - iy of a complex number x + iy.*/
+/*
     std::cout << "Problem 6.1.5" << std::endl;
 
     ComplexNumber z1(5.0, 2.0);
@@ -77,11 +83,13 @@ void assignment_6_1_5(){
 
     std::cout << "Real = " << z2.GetRealPart() << std::endl;
     std::cout << "Im   = " << z2.GetImaginaryPart() << std::endl;
+*/
 }
 
 void assignment_6_1_6(){
     /*A method SetToConjugate which has a void return type and sets the complex
     number x + iy to its complex conjugate x - iy.*/
+/*
     std::cout << "Problem 6.1.6" << std::endl;
 
     ComplexNumber z1(5.0, 2.0);
@@ -89,16 +97,19 @@ void assignment_6_1_6(){
 
     std::cout << "Real = " << z1.GetRealPart() << std::endl;
     std::cout << "Im   = " << z1.GetImaginaryPart() << std::endl;
+*/
 }
 
 void assignment_6_1_6_extra(){
+/*
     ComplexNumber z(1,2), w(2,-1), v;
     v = z*w;
     std::cout << "v Real = " << v.GetRealPart() << std::endl;
     std::cout << "v Im   = " << v.GetImaginaryPart() << std::endl;
+*/
 }
 void assignment_6_1_7(){
-    
+/*    
     ////////////
     // Creation
     int n = 3;
@@ -144,10 +155,11 @@ void assignment_6_1_7(){
 
     delete[] A;
     delete[] res;
+*/
 }   
 
 void assignment_6_2(){
-
+/*
     Matrix2x2 m(1,2,3,4);
     
     std::cout << "m : " << std::endl;
@@ -178,16 +190,17 @@ void assignment_6_2(){
     std::cout << "m3 - m2 = " << std::endl;
     m4.Print();    
 
-
+*/
 }
 
 void assignment_8_2(){
 
     int t;
-    t = CalcAbs(-9.78);
+    t = CalcAbs<int>(-9.78);
     
     std::cout << "CalcAbs(-s): " << t << std::endl; 
 }
+
 void assignment_9_1(){
 
     
@@ -211,7 +224,7 @@ int main(int argc, char * argv[])
         //assignment_6_2();
     
     //Assignment 8.2:
-        // assignment_8_2();
+         assignment_8_2();
     
     //Assignment 9.1:
         // assignment_9_1();

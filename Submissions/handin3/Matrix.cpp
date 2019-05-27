@@ -199,3 +199,8 @@ Vector<T> operator*(const Vector<T>& v, const Matrix<T>& m){
 
 	return new_vector;
 }
+
+// Explicit template isntantiation
+// Implicit template isntantiation
+template class Matrix<int>;
+template class Matrix<double>;

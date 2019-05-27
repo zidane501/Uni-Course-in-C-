@@ -22,7 +22,7 @@ void unit_tests(){
 
     int n = 3;
     double m = 3;
-    const Matrix<double> mat(3,3);
+    Matrix<double> mat(3,3);
 
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){

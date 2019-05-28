@@ -12,8 +12,12 @@ class Vector
 		Vector(const Vector<T>& otherVector);
 		Vector(int size);
 		~Vector();
+
 		int size() const;
-		Vector<T>& operator[](int i); // zero-based indexing
+
+		Vector<T>& operator[](int i){
+			
+		}; // zero-based indexing
 		Vector<T> const& operator[] (int i)const; // zero-based indexing
 
 		// assignment

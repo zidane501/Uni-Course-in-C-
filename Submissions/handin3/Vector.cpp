@@ -150,3 +150,6 @@ Vector<T> Vector<T>::CalculateNorm(int p) const
 	norm_val = pow(sum, 1.0/((double)(p)));
 	return norm_val;
 }
+
+template class Vector<int>;
+template class Vector<double>;

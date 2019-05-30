@@ -1,5 +1,5 @@
-#ifndef originalMatrixHEADERDEF
-#define originalMatrixHEADERDEF
+#ifndef ORIGINALMATRIXHEADERDEF
+#define ORIGINALMATRIXHEADERDEF
 #include "originalVector.hpp"
 
 class originalMatrix
@@ -8,7 +8,7 @@ private:
 	double** mData; // entries of originalMatrix
 	int mNumRows, mNumCols; // dimensions
 public:
-	originalMatrix(const originalMatrix& otheroriginalMatrix);
+	originalMatrix(const originalMatrix& otherOriginalMatrix);
 	originalMatrix(int numRows, int numCols);
 	~originalMatrix();
 	int GetNumberOfRows() const;
@@ -17,7 +17,7 @@ public:
 	double const& operator()(int i, int j)const;
 	
 	//overloaded assignment operator
-	originalMatrix& operator=(const originalMatrix& otheroriginalMatrix);
+	originalMatrix& operator=(const originalMatrix& otherOriginalMatrix);
 	originalMatrix operator-() const; // unary -
 	originalMatrix operator+(const originalMatrix& m1) const; // binary +
 	originalMatrix operator-(const originalMatrix& m1) const; // binary -

@@ -102,7 +102,7 @@ class Vector
 			
 			// zero-based indexing
 			assert(i >= 0);
-			assert(i < mSize);
+			assert(i < mSize);	
 
 			return mData[i];
 		}; 

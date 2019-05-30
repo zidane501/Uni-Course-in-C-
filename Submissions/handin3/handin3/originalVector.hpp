@@ -1,5 +1,5 @@
-#ifndef originalVectorHEADERDEF
-#define originalVectorHEADERDEF
+#ifndef ORIGINALVECTORHEADERDEF
+#define ORIGINALVECTORHEADERDEF
 
 class originalVector
 {

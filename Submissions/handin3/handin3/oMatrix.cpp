@@ -1,16 +1,16 @@
 #include <cmath>
 #include <cassert>
-#include "originalMatrix.hpp"
-#include "originalVector.hpp"
+#include "oMatrix.hpp"
+#include "oVector.hpp"
 
 
 // Overwritten copy constructor
 // Allocate memory for new matrix, and copy
 // entries into this matrix
-originalMatrix::originalMatrix(const originalMatrix& otherOriginalMatrix)
+Matrix::Matrix(const Matrix& otherMatrix)
 {
-	mNumRows = otherOriginalMatrix.mNumRows;
-	mNumCols = otherOriginalMatrix.mNumCols;
+	mNumRows = otherMatrix.mNumRows;
+	mNumCols = otherMatrix.mNumCols;
 	mData = new double* [mNumRows];
 	for (int i=0; i<mNumRows; i++)
 	{
@@ -20,7 +20,7 @@ originalMatrix::originalMatrix(const originalMatrix& otherOriginalMatrix)
 	{
 		for (int j=0; j<mNumCols; j++)
 		{
-			mData[i][j] = otherOriginalMatrix.mData[i][j];
+			mData[i][j] = otherMatrix.mData[i][j];
 		}
 	}
 }
@@ -28,7 +28,7 @@ originalMatrix::originalMatrix(const originalMatrix& otherOriginalMatrix)
 // Constructor for vector of a given length
 // Allocates memory, and initialises entries
 // to zero
-originalMatrix::originalMatrix(int numRows, int numCols)
+Matrix::Matrix(int numRows, int numCols)
 {
 	assert(numRows > 0);
 	assert(numCols > 0);
@@ -49,7 +49,7 @@ originalMatrix::originalMatrix(int numRows, int numCols)
 }
 
 // Overwritten destructor to correctly free memory
-originalMatrix::~originalMatrix()
+Matrix::~Matrix()
 {
 	for (int i=0; i<mNumRows; i++)
 	{
@@ -59,13 +59,13 @@ originalMatrix::~originalMatrix()
 }
 
 // Method to get number of rows of matrix
-int originalMatrix::GetNumberOfRows() const
+int Matrix::GetNumberOfRows() const
 {
 	return mNumRows;
 }
 
 // Method to get number of columns of matrix
-int originalMatrix::GetNumberOfColumns() const
+int Matrix::GetNumberOfColumns() const
 {
 	return mNumCols;
 }
@@ -73,7 +73,7 @@ int originalMatrix::GetNumberOfColumns() const
 // Overloading the round brackets
 // Note that this uses `zero-based' indexing,
 // and a check on the validity of the index
-double& originalMatrix::operator()(int i, int j)
+double& Matrix::operator()(int i, int j)
 {
 	assert(i >= 0);
 	assert(i < mNumRows);
@@ -82,7 +82,7 @@ double& originalMatrix::operator()(int i, int j)
 	return mData[i][j];
 }
 
-double const& originalMatrix::operator()(int i, int j)const
+double const& Matrix::operator()(int i, int j)const
 {
 	assert(i >= 0);
 	assert(i < mNumRows);
@@ -92,25 +92,25 @@ double const& originalMatrix::operator()(int i, int j)const
 }
 
 // Overloading the assignment operator
-originalMatrix& originalMatrix::operator=(const originalMatrix& otherOriginalMatrix)
+Matrix& Matrix::operator=(const Matrix& otherMatrix)
 {
-	assert(mNumRows = otherOriginalMatrix.mNumRows);
-	assert(mNumCols = otherOriginalMatrix.mNumCols);
+	assert(mNumRows = otherMatrix.mNumRows);
+	assert(mNumCols = otherMatrix.mNumCols);
 
 	for (int i=0; i<mNumRows; i++)
 	{
 		for (int j=0; j<mNumCols; j++)
 		{
-			mData[i][j] = otherOriginalMatrix.mData[i][j];
+			mData[i][j] = otherMatrix.mData[i][j];
 		}
 	}
 	return *this;
 }
 
 // Overloading the unary - operator
-originalMatrix originalMatrix::operator-() const
+Matrix Matrix::operator-() const
 {
-	originalMatrix mat(mNumRows, mNumCols);
+	Matrix mat(mNumRows, mNumCols);
 	for (int i=0; i<mNumRows; i++)
 	{
 		for (int j=0; j<mNumCols; j++)
@@ -122,11 +122,11 @@ originalMatrix originalMatrix::operator-() const
 }
 
 // Overloading the binary + operator
-originalMatrix originalMatrix::operator+(const originalMatrix& m1) const
+Matrix Matrix::operator+(const Matrix& m1) const
 {
 	assert(mNumRows == m1.mNumRows);
 	assert(mNumCols == m1.mNumCols);
-	originalMatrix mat(mNumRows, mNumCols);
+	Matrix mat(mNumRows, mNumCols);
 	for (int i=0; i<mNumRows; i++)
 	{
 		for (int j=0; j<mNumCols; j++)
@@ -138,11 +138,11 @@ originalMatrix originalMatrix::operator+(const originalMatrix& m1) const
 }
 
 // Overloading the binary - operator
-originalMatrix originalMatrix::operator-(const originalMatrix& m1) const
+Matrix Matrix::operator-(const Matrix& m1) const
 {
    assert(mNumRows == m1.mNumRows);
    assert(mNumCols == m1.mNumCols);
-   originalMatrix mat(mNumRows, mNumCols);
+   Matrix mat(mNumRows, mNumCols);
    for (int i=0; i<mNumRows; i++)
    {
       for (int j=0; j<mNumCols; j++)
@@ -154,9 +154,9 @@ originalMatrix originalMatrix::operator-(const originalMatrix& m1) const
 }
 
 // Overloading scalar multiplication
-originalMatrix originalMatrix::operator*(double a) const
+Matrix Matrix::operator*(double a) const
 {
-   originalMatrix mat(mNumRows, mNumCols);
+   Matrix mat(mNumRows, mNumCols);
    for (int i=0; i<mNumRows; i++)
    {
       for (int j=0; j<mNumCols; j++)
@@ -168,12 +168,12 @@ originalMatrix originalMatrix::operator*(double a) const
 }
 
 // Overloading matrix multiplied by a vector
-originalVector operator*(const originalMatrix& m, const originalVector& v)
+Vector operator*(const Matrix& m, const Vector& v)
 {
 	int original_vector_size = v.size();
 	assert(m.GetNumberOfColumns() == original_vector_size);
 	int new_vector_length = m.GetNumberOfRows();
-	originalVector new_vector(new_vector_length);
+	Vector new_vector(new_vector_length);
 
 	for (int i=0; i<new_vector_length; i++)
 	{
@@ -186,13 +186,13 @@ originalVector operator*(const originalMatrix& m, const originalVector& v)
 	return new_vector;
 }
 
-// Overloading vector multiplied by a originalMatrix
-originalVector operator*(const originalVector& v, const originalMatrix& m)
+// Overloading vector multiplied by a matrix
+Vector operator*(const Vector& v, const Matrix& m)
 {
 	int original_vector_size = v.size();
 	assert(m.GetNumberOfRows() == original_vector_size);
 	int new_vector_length = m.GetNumberOfColumns();
-	originalVector new_vector(new_vector_length);
+	Vector new_vector(new_vector_length);
 
 	for (int i=0; i<new_vector_length; i++)
 	{

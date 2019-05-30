@@ -63,6 +63,7 @@ void printMatrix(const T A, int rows, int cols, std::string name){
 */
 };
 
+/////////////////////////////////////////////////////////////
 template<typename T>
 void printVector(const T A, int indices, std::string name){
         // Vectors
@@ -85,32 +86,52 @@ void printVector(const T A, int indices, std::string name){
     }
 }
 
+/////////////////////////////////////////////////////////////
+void assertMatrices(Matrix<double> A, originalMatrix Ao){
+    for (int i = 0; i < 3; i++){
+        for (int j  = 0; j < 3; j++){
+            assert(A(i,j)==A(i,j));
+        }
+    }
+    
+}
+
 void unit_tests(){
 
     int ni = 3;
     int nj = 3;
     
-    Matrix<int> mat(ni,nj);
+    Matrix<double> mat(ni,nj);
 
-    printMatrix(mat,ni,nj, "Overloading of ()-operator -- mat");
     std::cout << "mat.GetNumberOfColumns(): " << mat.GetNumberOfColumns() << std::endl;
-    std::cout << "mat.GetNumberOfRows(): " << mat.GetNumberOfRows() << std::endl;
+    std::cout << "mat.GetNumberOfRows(): "    << mat.GetNumberOfRows() << std::endl;
+    /************/
+    originalMatrix matO(ni,nj);
 
+    //std::cout << "matOriginal.GetNumberOfColumns(): " << matO.GetNumberOfColumns() << std::endl;
+    //std::cout << "matOriginal.GetNumberOfRows(): "    << matO.GetNumberOfRows() << std::endl;
+
+    //assertMatrices(mat, matO);
+
+    /////////////////////////////////////////////////
     // Overloading of assignment operator
-    Matrix<int> A(ni,nj);
+    Matrix<double> A(ni,nj);
     A = mat;
-    printMatrix(A,ni,nj, "Overloading of assignment operator--A=mat");
-    
+    //printMatrix(A,ni,nj, "Overloading of assignment operator--A=mat");
+    //originalMatrix AO(ni,nj);
+    //AO = matO;
+
+    //assertMatrices(A, AO);
 
     // Overloading the unary - operator
     std::cout << "Overloading the unary - operator: " <<  std::endl;
-    Matrix<int> B(ni,nj);
+    Matrix<double> B(ni,nj);
     B = -A;
     printMatrix(B,ni,nj, "B = -A");
 
     // v1 = rand() % 100;  // generate random number
     // Overloading the binary + operator
-    Matrix<int> C(ni,nj);
+    Matrix<double> C(ni,nj);
     for (int i = 0; i < ni; i++){
         for (int j = 0; j < ni; j++){
             B(i,j) = rand() % 10+1; 
@@ -133,7 +154,7 @@ void unit_tests(){
 
     // Overloading matrix multiplied by a vector
     //matrix-vector multiplications
-    Vector<int> v(nj), v2(ni);
+    Vector<double> v(nj), v2(ni);
      
     printVector(v2,nj,"v");
 

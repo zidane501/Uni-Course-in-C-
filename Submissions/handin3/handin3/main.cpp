@@ -2,17 +2,13 @@
 #include "Vector.hpp"
 #include "Matrix.hpp"
 
+#include "originalVector.hpp"
+#include "originalMatrix.hpp"
+
 #include <cassert>
 #include <iostream>
 
 #include <stdlib.h>  // rand()
-
-template <class T>
-T GetMax (T a, T b) {
-  T result;
-  result = (a>b)? a : b;
-  return (result);
-}
 
 template<typename T>
 void printMatrix(const T A, int rows, int cols, std::string name){
@@ -94,28 +90,27 @@ void unit_tests(){
     int ni = 3;
     int nj = 3;
     
-    Matrix<double> mat(ni,nj);
+    Matrix<int> mat(ni,nj);
 
     printMatrix(mat,ni,nj, "Overloading of ()-operator -- mat");
-    //std::cout << "mat.GetMatrixIndex(2,3): " << mat.GetMatrixIndex(2,3) << std::endl;
     std::cout << "mat.GetNumberOfColumns(): " << mat.GetNumberOfColumns() << std::endl;
     std::cout << "mat.GetNumberOfRows(): " << mat.GetNumberOfRows() << std::endl;
 
     // Overloading of assignment operator
-    Matrix<double> A(ni,nj);
+    Matrix<int> A(ni,nj);
     A = mat;
     printMatrix(A,ni,nj, "Overloading of assignment operator--A=mat");
     
 
     // Overloading the unary - operator
     std::cout << "Overloading the unary - operator: " <<  std::endl;
-    Matrix<double> B(ni,nj);
+    Matrix<int> B(ni,nj);
     B = -A;
     printMatrix(B,ni,nj, "B = -A");
 
     // v1 = rand() % 100;  // generate random number
     // Overloading the binary + operator
-    Matrix<double> C(ni,nj);
+    Matrix<int> C(ni,nj);
     for (int i = 0; i < ni; i++){
         for (int j = 0; j < ni; j++){
             B(i,j) = rand() % 10+1; 
@@ -132,28 +127,36 @@ void unit_tests(){
     printMatrix(C,ni,nj, "C = B - C");
 
     // Overloading scalar multiplication
-    double k = 3;
+    int k = 3;
     C = B*k;
     printMatrix(C,ni,nj, "C = B*3");
 
     // Overloading matrix multiplied by a vector
     //matrix-vector multiplications
-    Vector<double> v(nj), v2(ni);
-    std::cout << v[0] << std::endl;
+    Vector<int> v(nj), v2(ni);
      
-    //printVector(v2,nj,"v");
-
-/*
-    for (int i = 0; i < nj; i++){
-        v[i] = rand() % 11;
-    }
     printVector(v2,nj,"v");
 
 
+    for (int i = 0; i < nj; i++){
+        v[i] = rand() % 11;
+        std::cout << "v[i] = rand() % 11 = " << v[i] << std::endl;
+    }
+    
+    printMatrix(B,ni,nj, "B");
+    printVector(v,nj,"v");
+
+    // Overloading matrix multiplied by a vector
+    //matrix-vector multiplications
     v2 = B*v;
 
     printVector(v2,ni,"v2 = B*v");
-*/
+
+    //vector-matrix multiplications
+    v2 = v*B;
+
+    printVector(v2,ni,"v2 = v*B");
+
 }
 
 int main() {

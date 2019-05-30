@@ -16,5 +16,9 @@ int main(int argc, char const *argv[])
         
     }
     
+    Vector v(3);
+
+    std::cout << "v[3]: " << v[2] << std::endl;
+
     return 0;
 }

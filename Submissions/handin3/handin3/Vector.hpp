@@ -9,9 +9,9 @@ template<typename T>
 class Vector
 {
 	private:
-		double* mData; // data stored in vector
+		T* mData; // data stored in vector
 		int mSize; // size of vector
-
+		bool mDebug = false;
 	public:
 		
 		////////////////////////////////
@@ -19,28 +19,33 @@ class Vector
 		// Allocates memory for new vector, and copies
 		// entries of other vector into it
 		Vector(const Vector<T>& otherVector){
-			std::cout << "Enter "<< " *Vector Constructor*" << std::endl;
+			std::cout << "Enter "<< " *Vector(const Vector<T>& otherVector)* - copyconstructor" << std::endl;
 
 			mSize = otherVector.size();
-			mData = new double [mSize];
+			mData = new T [mSize];
 
 			for (int i=0; i<mSize; i++){
 				mData[i] = otherVector.mData[i];
 			}
-			std::cout << "Leaving "<< " *Vector Constructor*" << std::endl;
+
 		}
 
 		////////////////////////////////
 		// Constructor for vector of a given size
 		// Allocates memory, and initialises entries
 		// to zero
-		Vector(int size){
-	
-			std::cout << "Enter "<< " *Vector Constructor*" << std::endl;
+		Vector(int size, bool debug=false){
+			mDebug = debug;
+			if (mDebug){
+				std::cout << "Constructor mDebug: "<< mDebug << std::endl;
+				std::cout << "Enter "<< " *Vector(int size)* - constructor" << std::endl;
+				std::cout << "size:" << size << std::endl;
+			}
+			
 			assert(size > 0);
 	
 			mSize = size;
-			mData = new double [mSize];
+			mData = new T [mSize];
 	
 			for (int i=0; i<mSize; i++){
 				mData[i] = 0.0;
@@ -49,14 +54,20 @@ class Vector
 		////////////////////////////////
 		// Overridden destructor to correctly free memory
 		~Vector(){
-			std::cout << "Enter "<< " *Vector Destructor*" << std::endl;
+			if (mDebug){
+				std::cout << "Enter "<< " *~destructor()*" << std::endl;
+			}
+			
 			delete[] mData;
 		};
 
 		////////////////////////////////
 		// Method to get the size of a vector
-		int size() const{	
-			std::cout << "Enter "<< " *Vector.size()*" << std::endl;
+		int size() const{
+			if (mDebug){
+				std::cout << "Enter "<< " *size()*" << std::endl;
+			}
+				
 			return mSize;
 		};
 
@@ -65,9 +76,16 @@ class Vector
 		// Overloading square brackets
 		// Note that this uses `zero-based' indexing,
 		// and a check on the validity of the index
-		Vector<T>& operator[](int i){
+		T& operator[](int i){
+		
+			if (mDebug){
+				std::cout << "mDebug: "<< mDebug << std::endl;
+				std::cout << "Enter "<< " *Overloading square brackets []*" << std::endl;
+			}
+			
 			assert(i >= 0);
 			assert(i < mSize);
+		
 			return mData[i];
 		}
 
@@ -75,7 +93,13 @@ class Vector
 		// Overloading square brackets
 		// Note that this uses `zero-based' indexing,
 		// and a check on the validity of the index
-		Vector<T> const& operator[] (int i)const{
+		T const& operator[] (int i)const{
+		
+			if (mDebug){
+				std::cout << "mDebug: "<< mDebug << std::endl;
+				std::cout << "Enter "<< " *Overloading square brackets []*" << std::endl;
+			}
+			
 			// zero-based indexing
 			assert(i >= 0);
 			assert(i < mSize);
@@ -85,7 +109,10 @@ class Vector
 
 		// assignment
 		Vector<T>& operator=(const Vector<T>& otherVector){
-			
+			if (mDebug){
+				std::cout << "Enter "<< " *Overloading the assignment = operator*" << std::endl;
+			}
+		
 			assert(mSize == otherVector.mSize);
 			
 			for (int i=0; i<mSize; i++){
@@ -98,6 +125,10 @@ class Vector
 		////////////////////////////////
 		// Overloading the unary - operator
 		Vector<T> operator-() const{
+			if (mDebug){
+				std::cout << "Enter "<< " *Overloading the unary - operator*" << std::endl;
+			}
+	
 			Vector v(mSize);
 			for (int i=0; i<mSize; i++)
 			{
@@ -109,7 +140,10 @@ class Vector
 		////////////////////////////////		
 		// Overloading the binary + operator
 		Vector<T> operator+(const Vector<T>& v1) const{
-
+			if (mDebug){
+				std::cout << "Enter "<< " *Overloading the binary + operator*" << std::endl;
+			}
+		
 			assert(mSize == v1.mSize);
 			Vector v(mSize);
 
@@ -121,9 +155,12 @@ class Vector
 		}; // binary +
 
 		////////////////////////////////		
-		// Overloading the binary + operator
+		// Overloading the binary - operator
 		Vector<T> operator-(const Vector<T>& v1) const{
-		
+			if (mDebug){
+				std::cout << "Enter "<< " *Overloading the binary - operator*" << std::endl;
+			}
+			
 			assert(mSize == v1.mSize);
 			Vector v(mSize);
 		
@@ -136,8 +173,11 @@ class Vector
 
 		////////////////////////////////		
 		// Overloading scalar multiplication
-		Vector<T> operator*(double a) const{
-
+		Vector<T> operator*(T a) const{
+			if (mDebug){
+				std::cout << "Enter "<< " *Overloading scalar multiplication*" << std::endl;
+			}
+			
 			Vector v(mSize);
 			
 			for (int i=0; i<mSize; i++){
@@ -151,9 +191,12 @@ class Vector
 		// p-norm method
 		// Method to calculate norm (with default value p=2)
 		// corresponding to the Euclidean norm
-		Vector<T> CalculateNorm(int p=2) const{	
-			std::cout << "Enter "<< " *Vector.CalculateNorm(p)*" << std::endl;
-
+		double CalculateNorm(int p=2) const{	
+			if (mDebug){
+				std::cout << "Enter "<< " *Vector.CalculateNorm(p)*" << std::endl;
+				std::cout << "mSize "<< mSize << std::endl;
+			}
+			
 			double norm_val, sum = 0.0;
 
 			for (int i=0; i<mSize; i++){

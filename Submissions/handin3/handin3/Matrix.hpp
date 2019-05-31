@@ -1,50 +1,7 @@
 #ifndef MATRIXHEADERDEF
 #define MATRIXHEADERDEF
 
-/*
-template<typename T>
-class Matrix{
-private:
 
-	T* mData; // entries of matrix
-	int mNumRows, mNumCols; // dimensions
-
-public:
-
-	Matrix(const Matrix& otherMatrix);
-	Matrix(int numRows, int numCols);
-
-	~Matrix();
-
-	int GetNumberOfRows() const;
-	int GetNumberOfColumns() const;
-	int GetMatrixIndex(int i, int j) const ; // Added by me
-
-	T& operator()(int i, int j);
-	T const& operator()(int i, int j)const;
-
-	//overloaded assignment operator
-	Matrix<T>& operator=(const Matrix<T>& otherMatrix);
-	Matrix<T> operator-() const; // unary -
-	Matrix<T> operator+(const Matrix<T>& m1) const; // binary +
-	Matrix<T> operator-(const Matrix<T>& m1) const; // binary -
-
-	// scalar multiplication
-	Matrix<T> operator*(double a) const;
-
-
-};
-
-//matrix-vector multiplications
-template<typename T>
-Vector<T> operator*(const Matrix<T>& m, const Vector<T>& v);
-
-template<typename T>
-Vector<T> operator*(const Vector<T>& v, const Matrix<T>& m);
-
-
-
-*/
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
 #include <cmath>
@@ -104,10 +61,11 @@ class Matrix{
 		};
 
 		// Overwritten destructor to correctly free memory
+/*
 		~Matrix(){	
-			//delete[] mData;
+			delete[] mData;
 		}
-
+*/
 		int GetMatrixIndex(int i, int j) const {
 			
 			assert(i >= 0);
@@ -128,6 +86,9 @@ class Matrix{
 			return mNumCols;
 		}
 
+		std::vector<T> const& getStorage(){
+			return mData;
+		}
 		// Overloading the round brackets
 		// Note that this uses `zero-based' indexing,
 		// and a check on the validity of the index
@@ -152,7 +113,7 @@ class Matrix{
 		}
 
 		// Overloading the assignment operator
-		Matrix<T>& operator=(const Matrix<T>& otherMatrix){
+/*		Matrix<T>& operator=(const Matrix<T>& otherMatrix){
 			
 			assert(mNumRows == otherMatrix.mNumRows);
 			assert(mNumCols == otherMatrix.mNumCols);
@@ -163,8 +124,9 @@ class Matrix{
 
 			return *this;
 		}
-
+*/
 		// Overloading the unary - operator
+
 		Matrix<T> operator-() const{
 			
 			Matrix<T> mat(mNumRows, mNumCols);
@@ -202,15 +164,7 @@ class Matrix{
 				mat.mData[i] = mData[i] - m1.mData[i];
 			}
 			return mat;
-/*
-			Matrix<T> mat(mNumRows, mNumCols);
-			for (int i=0; i<mNumRows; i++){
-				for (int j=0; j<mNumCols; j++){
-					mat(i,j) = mData[GetMatrixIndex(i,j)] - m1.mData[GetMatrixIndex(i,j)];
-				}
-			}
-			return mat;
-*/
+
 		}
 
 		// Overloading scalar multiplication
@@ -224,6 +178,8 @@ class Matrix{
 
 			return mat;
 		}
+
+
 };
 
 // Overloading matrix multiplied by a vector

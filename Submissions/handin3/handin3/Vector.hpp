@@ -4,13 +4,15 @@
 #include <cmath>
 #include <iostream>
 #include <cassert>
+#include <vector>
 
 template<typename T>
 class Vector
 {
 	private:
-		T* mData; // data stored in vector
+		//T* mData; // data stored in vector
 		int mSize; // size of vector
+		std::vector<T> mData;
 		bool mDebug = false;
 	public:
 		
@@ -22,10 +24,9 @@ class Vector
 			std::cout << "Enter "<< " *Vector(const Vector<T>& otherVector)* - copyconstructor" << std::endl;
 
 			mSize = otherVector.size();
-			mData = new T [mSize];
-
+			
 			for (int i=0; i<mSize; i++){
-				mData[i] = otherVector.mData[i];
+			mData.push_back(otherVector.mData[i]);
 			}
 
 		}
@@ -45,14 +46,13 @@ class Vector
 			assert(size > 0);
 	
 			mSize = size;
-			mData = new T [mSize];
+			
 	
-			for (int i=0; i<mSize; i++){
-				mData[i] = 0.0;
-			}
+			mData = std::vector<T>(size, 0.0);
 		};
 		////////////////////////////////
 		// Overridden destructor to correctly free memory
+/*		
 		~Vector(){
 			if (mDebug){
 				std::cout << "Enter "<< " *~destructor()*" << std::endl;
@@ -60,9 +60,10 @@ class Vector
 			
 			delete[] mData;
 		};
-
+*/
 		////////////////////////////////
 		// Method to get the size of a vector
+
 		int size() const{
 			if (mDebug){
 				std::cout << "Enter "<< " *size()*" << std::endl;
@@ -76,6 +77,7 @@ class Vector
 		// Overloading square brackets
 		// Note that this uses `zero-based' indexing,
 		// and a check on the validity of the index
+
 		T& operator[](int i){
 		
 			if (mDebug){
@@ -93,6 +95,7 @@ class Vector
 		// Overloading square brackets
 		// Note that this uses `zero-based' indexing,
 		// and a check on the validity of the index
+
 		T const& operator[] (int i)const{
 		
 			if (mDebug){
@@ -108,6 +111,7 @@ class Vector
 		}; 
 
 		// assignment
+/*
 		Vector<T>& operator=(const Vector<T>& otherVector){
 			if (mDebug){
 				std::cout << "Enter "<< " *Overloading the assignment = operator*" << std::endl;
@@ -121,9 +125,10 @@ class Vector
 
 			return *this;
 		};
-
+*/
 		////////////////////////////////
 		// Overloading the unary - operator
+
 		Vector<T> operator-() const{
 			if (mDebug){
 				std::cout << "Enter "<< " *Overloading the unary - operator*" << std::endl;

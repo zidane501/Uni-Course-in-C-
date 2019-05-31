@@ -209,6 +209,8 @@ void unit_tests(){
 
     printVector(v2,ni,"v2 = v*B");
     assertVectors(v2,  v2O, "v2O = BO*vO");
+
+    v2 = -v2;
 }
 
 int main() {

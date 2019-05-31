@@ -11,7 +11,7 @@
 #include <stdlib.h>  // rand()
 
 template<typename T>
-void printMatrix(const T A, int rows, int cols, std::string name){
+void printMatrix(const T& A, int rows, int cols, std::string name){
 
     if ((rows == 3) & (cols == 3)){
         std::cout << "\n" << name << ":" << std::endl;
@@ -41,60 +41,69 @@ void printMatrix(const T A, int rows, int cols, std::string name){
         
         std::cout << "" << std::endl;
     }
-/*
-    // Vectors
-    if ((rows == 2) & (cols == 0)){
-        std::cout << "\n" << name << ":" << std::endl;
-        
-        std::cout << A[0] << std::endl;
-        std::cout << A[1] << std::endl;
-        
-        std::cout << "" << std::endl;
-    }
 
-    if ((rows == 3) & (cols == 0)){
-        std::cout << "\n" << name << ":" << std::endl;
-        
-        std::cout << A[0] << std::endl;
-        std::cout << A[1] << std::endl;
-        std::cout << A[2] << std::endl;        
-        std::cout << "" << std::endl;
-    }
-*/
 };
 
 /////////////////////////////////////////////////////////////
 template<typename T>
-void printVector(const T A, int indices, std::string name){
-        // Vectors
-    if (indices == 2){
-        std::cout << "\n" << name << ":" << std::endl;
-        
-        std::cout << A[0] << std::endl;
-        std::cout << A[1] << std::endl;
-        
-        std::cout << "" << std::endl;
-    }
+void printVector(const T& A, int indices, std::string name){
+    // Vectors
 
-    if (indices == 3){
-        std::cout << "\n" << name << ":" << std::endl;
-        
-        std::cout << A[0] << std::endl;
-        std::cout << A[1] << std::endl;
-        std::cout << A[2] << std::endl;        
-        std::cout << "" << std::endl;
+    std::cout << "\n" << name << ":" << std::endl;   
+    
+    for (int i = 0; i < indices; i++)
+    {
+        std::cout << A[i] << " ";
     }
+    std::cout << "" << std::endl;
+        
 }
 
 /////////////////////////////////////////////////////////////
-void assertMatrices(Matrix<double> A, originalMatrix Ao){
-    for (int i = 0; i < 3; i++){
-        for (int j  = 0; j < 3; j++){
-            assert(A(i,j)==A(i,j));
+
+void assertMatrices(Matrix<double>& A,  originalMatrix& AO, std::string name){
+    for (int i = 0; i < A.GetNumberOfRows(); i++){
+        for (int j  = 0; j < A.GetNumberOfColumns(); j++){
+            
+            try
+            {
+                assert(A(i,j)==AO(i,j));
+            }
+            catch(const std::exception& e){
+                std::cout << "Assert error:" << std::endl;
+                printMatrix(A,3,3, "A");
+                printMatrix(AO,3,3, "AO");
+                std::cerr << e.what() << '\n';
+            }
         }
     }
-    
+    std::cout << name << ": asserting finished\n" << std::endl;
 }
+
+/////////////////////////////////////////////////////////////
+void assertVectors(Vector<double>& v,  originalVector& vO, std::string name){
+    
+    for (int i = 0; i < v.size(); i++)
+    {
+        assert(v[i]==vO[i]);
+    }
+    std::cout << name << ": asserting finished\n" << std::endl;
+}
+
+/////////////////////////////////////////////////////////////
+template<typename T>
+void matrixCreation_UnitTest(Matrix<T>& mat, originalMatrix& matO, std::string name){
+    
+    assertMatrices(mat, matO, name);
+    std::cout << "mat.GetNumberOfColumns(): " << mat.GetNumberOfColumns() << std::endl;
+    std::cout << "mat.GetNumberOfRows(): "    << mat.GetNumberOfRows() << std::endl;
+
+    std::cout << "mat.GetNumberOfColumns(): " << matO.GetNumberOfColumns() << std::endl;
+    std::cout << "mat.GetNumberOfRows(): "    << matO.GetNumberOfRows() << std::endl;
+}
+
+/////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
 
 void unit_tests(){
 
@@ -102,82 +111,104 @@ void unit_tests(){
     int nj = 3;
     
     Matrix<double> mat(ni,nj);
-
-    std::cout << "mat.GetNumberOfColumns(): " << mat.GetNumberOfColumns() << std::endl;
-    std::cout << "mat.GetNumberOfRows(): "    << mat.GetNumberOfRows() << std::endl;
-    /************/
     originalMatrix matO(ni,nj);
 
-    //std::cout << "matOriginal.GetNumberOfColumns(): " << matO.GetNumberOfColumns() << std::endl;
-    //std::cout << "matOriginal.GetNumberOfRows(): "    << matO.GetNumberOfRows() << std::endl;
-
-    //assertMatrices(mat, matO);
-
+    assertMatrices( mat, matO, "Matrix Creation: mat, matO");
     /////////////////////////////////////////////////
     // Overloading of assignment operator
     Matrix<double> A(ni,nj);
     A = mat;
-    //printMatrix(A,ni,nj, "Overloading of assignment operator--A=mat");
-    //originalMatrix AO(ni,nj);
-    //AO = matO;
 
-    //assertMatrices(A, AO);
+    printMatrix(A,ni,nj, "Overloading of assignment operator--A=mat");
+    originalMatrix AO(ni,nj);
+    AO = matO;
+
+    assertMatrices(A, AO, "A=AO");
 
     // Overloading the unary - operator
     std::cout << "Overloading the unary - operator: " <<  std::endl;
+    
     Matrix<double> B(ni,nj);
-    B = -A;
-    printMatrix(B,ni,nj, "B = -A");
+    originalMatrix BO(ni,nj);
 
+    B = -A;
+    BO = -AO;
+
+
+    
+    printMatrix(BO,ni,nj, "BO = -AO");
+    printMatrix(B,ni,nj, "B = -A");
+    assertMatrices(B, BO, "B = -A");
+    
     // v1 = rand() % 100;  // generate random number
     // Overloading the binary + operator
     Matrix<double> C(ni,nj);
+    originalMatrix CO(ni,nj);
+    
     for (int i = 0; i < ni; i++){
         for (int j = 0; j < ni; j++){
-            B(i,j) = rand() % 10+1; 
+            B(i,j) = rand() % 10+1;
+            BO(i,j) = B(i,j);
         }   
     }
-    printMatrix(B,ni,nj, "B");
 
+    printMatrix(B,ni,nj, "B");
+    printMatrix(BO,ni,nj, "B");
     // Overloading the binary + operator
     C = B + B;
-    printMatrix(C,ni,nj, "C = B + B");
+    CO = BO + BO;
+    
+    //printMatrix(C,ni,nj, "C = B + B");
+
+    assertMatrices(C,  CO, "C = B + B");
 
     // Overloading the binary - operator
     C = B - C;
-    printMatrix(C,ni,nj, "C = B - C");
-
+    CO = BO - CO;
+    
+    //printMatrix(C,ni,nj, "C = B - C");
+    assertMatrices(C,  CO, "C = B + B");
+    
     // Overloading scalar multiplication
     int k = 3;
     C = B*k;
-    printMatrix(C,ni,nj, "C = B*3");
+    CO = BO*k;
 
+    printMatrix(C,ni,nj, "C = B*3");
+    assertMatrices(C,  CO, "C = B + B");
+    
     // Overloading matrix multiplied by a vector
     //matrix-vector multiplications
     Vector<double> v(nj), v2(ni);
-     
+    originalVector vO(nj), v2O(ni);
+    
     printVector(v2,nj,"v");
 
 
     for (int i = 0; i < nj; i++){
         v[i] = rand() % 11;
-        std::cout << "v[i] = rand() % 11 = " << v[i] << std::endl;
+        vO[i] = v[i];
+        std::cout << "vO[i] = rand() % 11 = " << vO[i] << std::endl;
     }
     
     printMatrix(B,ni,nj, "B");
     printVector(v,nj,"v");
-
+    
     // Overloading matrix multiplied by a vector
     //matrix-vector multiplications
     v2 = B*v;
+    v2O = BO*vO;
 
     printVector(v2,ni,"v2 = B*v");
+    printVector(v2,ni,"v2 = B*v");
+    assertVectors(v2,  v2O, "v2 = B*v");
 
     //vector-matrix multiplications
     v2 = v*B;
+    v2O = vO*BO;
 
     printVector(v2,ni,"v2 = v*B");
-
+    assertVectors(v2,  v2O, "v2O = BO*vO");
 }
 
 int main() {

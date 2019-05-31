@@ -49,13 +49,15 @@ Vector<T> operator*(const Vector<T>& v, const Matrix<T>& m);
 ///////////////////////////////////////////////////////////////////////////////////////
 #include <cmath>
 #include <cassert>
+#include <vector>
+
 #include "Vector.hpp"
 
 template<typename T>
 class Matrix{
 	private:
 
-		T* mData; // entries of matrix
+		std::vector<T> mData; // entries of matrix
 		int mNumRows, mNumCols; // dimensions
 		int size;
 
@@ -72,10 +74,10 @@ class Matrix{
 			
 			size = mNumRows*mNumCols;
 
-			mData = new T [size];
+			//mData = new std::vector<T>;
 
 			for (int i=0; i<size; i++){
-				mData[i] = otherMatrix.mData[i];
+				mData.push_back(otherMatrix.mData[i]);
 			}
 			
 		};
@@ -93,17 +95,17 @@ class Matrix{
 			
 			size = mNumRows*mNumCols;
 
-			mData = new T [size];
-			
-			for (int i=0; i<size; i++){
-				mData[i] = 0;
-			}
-			
+			mData = std::vector<T>(size, 0.0);
+
+
+
+			std::cout << "mdata" << mData[0] << std::endl;
+						
 		};
 
 		// Overwritten destructor to correctly free memory
 		~Matrix(){	
-			delete[] mData;
+			//delete[] mData;
 		}
 
 		int GetMatrixIndex(int i, int j) const {

@@ -1,13 +1,13 @@
 
 #include "Vector.hpp"
 #include "Matrix.hpp"
+#include "SparseVector.hpp"
 
 #include "originalVector.hpp"
 #include "originalMatrix.hpp"
 
 #include <cassert>
 #include <iostream>
-
 #include <stdlib.h>  // rand()
 
 template<typename T>
@@ -210,12 +210,30 @@ void unit_tests(){
     printVector(v2,ni,"v2 = v*B");
     assertVectors(v2,  v2O, "v2O = BO*vO");
 
-    v2 = -v2;
+    
+}
+
+void sparsevector(){
+
+    // Creation
+    SparseVector<double> sparse(10);
+    std::cout << "sparse.size(): " << sparse.size() << std::endl;
+    
+    
+    // Set Value
+    sparse.setValue(3,6);
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse[i] " << sparse.getValue(i) << std::endl;
+    }
+    
 }
 
 int main() {
     
-    unit_tests();
+    //unit_tests();
+    
+    sparsevector();
     
     return 0;
 }

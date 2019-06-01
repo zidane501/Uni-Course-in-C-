@@ -50,6 +50,10 @@ class Vector
 	
 			mData = std::vector<T>(size, 0.0);
 		};
+
+		std::vector<T> const& getStorage(){
+			return mData;
+		}
 		////////////////////////////////
 		// Overridden destructor to correctly free memory
 /*		

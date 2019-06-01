@@ -65,7 +65,12 @@ class Matrix{
 		~Matrix(){	
 			delete[] mData;
 		}
-*/
+*/				
+		
+		std::vector<T> const& getStorage(){
+			return mData;
+		}
+
 		int GetMatrixIndex(int i, int j) const {
 			
 			assert(i >= 0);
@@ -86,9 +91,6 @@ class Matrix{
 			return mNumCols;
 		}
 
-		std::vector<T> const& getStorage(){
-			return mData;
-		}
 		// Overloading the round brackets
 		// Note that this uses `zero-based' indexing,
 		// and a check on the validity of the index

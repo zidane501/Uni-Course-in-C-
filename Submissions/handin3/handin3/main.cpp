@@ -216,17 +216,26 @@ void unit_tests(){
 void sparsevector(){
 
     // Creation
-    SparseVector<double> sparse(10);
+    SparseVector<double> sparse(10), sparse1(10), sparse2(10);
     std::cout << "sparse.size(): " << sparse.size() << std::endl;
     
     
     // Set Value
-    sparse.setValue(3,6);
+    sparse.setValue(3,318.5);
+    
+    sparse1.setValue(5,199.7);
+
     for (int i = 0; i < sparse.size(); i++)
     {
         std::cout << "sparse[i] " << sparse.getValue(i) << std::endl;
     }
     
+    sparse = sparse2 + sparse1; // ***** WTF ****** returnerer det rigtige men gør intet
+    
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse[" << i <<"]: " << sparse2.getValue(i) << std::endl;
+    }
 }
 
 int main() {

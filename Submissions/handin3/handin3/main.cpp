@@ -215,26 +215,65 @@ void unit_tests(){
 
 void sparsevector(){
 
+    int n = 4;
+
     // Creation
-    SparseVector<double> sparse(10), sparse1(10), sparse2(10);
+    SparseVector<double> sparse(n), sparse1(n), sparse2(n);
     std::cout << "sparse.size(): " << sparse.size() << std::endl;
     
     
     // Set Value
-    sparse.setValue(3,318.5);
-    
-    sparse1.setValue(5,199.7);
+    sparse.setValue(3,1);
+    //sparse.setValue(4,1);
+    //sparse.setValue(9,1);
+    sparse1.setValue(1,1.0);
 
+    std::cout << "sparse after setting value:" << std::endl;
     for (int i = 0; i < sparse.size(); i++)
     {
         std::cout << "sparse[i] " << sparse.getValue(i) << std::endl;
     }
     
-    sparse = sparse2 + sparse1; // ***** WTF ****** returnerer det rigtige men gør intet
-    
+    //sparse += sparse1; 
+/*
     for (int i = 0; i < sparse.size(); i++)
     {
-        std::cout << "sparse[" << i <<"]: " << sparse2.getValue(i) << std::endl;
+        std::cout << "sparse[" << i <<"]: " << sparse.getValue(i) << std::endl;
+    }
+*/
+
+    /////////////////////////////////
+    sparse = sparse1+sparse;
+
+    std::cout << "sparse = sparse1+sparse:" << std::endl;
+
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse[" << i <<"]: " << sparse.getValue(i) << std::endl;
+    }
+
+    
+    /////////////////////////////////
+    // Matrix sparse-vector multiplication dv=M*sv:
+    Vector<double> vec(n);
+
+    Matrix<double> mat(n,n);
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+       {
+            mat(i,j) = rand() % 10;
+            std::cout << "mat(" << i << "," << j << "): " <<  mat(i,j) << ", ";
+        }
+        
+    }
+    
+    vec = sparse*mat;
+
+    std::cout << "vec = sparse*mat:" << std::endl;
+    for (int i = 0; i < vec.size(); i++)
+    {
+        std::cout << "vec[" << i << "]: " << vec[i] << std::endl;
     }
 }
 

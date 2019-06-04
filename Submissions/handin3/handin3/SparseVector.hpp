@@ -19,6 +19,21 @@ class SparseVector{
 		T mZeroValue = 0;
 
 	public:
+
+		// Overridden copy constructor
+		// Allocates memory for new vector, and copies
+		// entries of other vector into it
+		SparseVector(const SparseVector<T>& otherVector){
+			std::cout << "Enter "<< " *Vector(const Vector<T>& otherVector)* - copyconstructor" << std::endl;
+
+			mDim = otherVector.size();
+			mDimNonZeroData = otherVector.nonZeroes(); 
+			for (int i=0; i<otherVector.nonZeroes(); i++){
+				mDataIndices.push_back(otherVector.indexNonZero(i));
+				mDataVals.push_back(otherVector.valueNonZero(i));
+			}
+
+		}
 		//creates an empty vector of dimensionality 0.
 		SparseVector(){
 			mDataVals = std::vector<T>();
@@ -39,8 +54,8 @@ class SparseVector{
 		//sets the value v_i of the vector. if it does not exist it is added 
 		void setValue(unsigned int index, T value){
 			assert(index<mDim);
-			std::cout << "mDimNonZeroData:" << mDimNonZeroData << std::endl;
-			
+			//std::cout << "mDimNonZeroData:" << mDimNonZeroData << std::endl;
+/*			
 			for (int i = 0; i < mDimNonZeroData; i++)
 			{
 				if(index == mDataIndices[i]){
@@ -48,6 +63,7 @@ class SparseVector{
 					//std::cout << "1 Leaving setValue() " << std::endl;
 					break;
 				}
+
 				if( index < mDataIndices[i] ){
 					auto itInd = mDataIndices.begin();
 					mDataIndices.insert(itInd+i, index);
@@ -78,9 +94,13 @@ class SparseVector{
 			mDimNonZeroData++;
 			//std::cout << "3 Leaving setValue() " << std::endl;
 
+*/
 			//std::cout << "mDimNonZeroData (get): " << mDimNonZeroData << std::endl;
+			mDataVals.push_back(value);
+			mDataIndices.push_back(index);
+		
 		};
-			
+		
 		//returns the value v_i of the vector. Returns 0 if the value is not stored
 		T getValue(unsigned int index)const{
 			// std::cout << "in getValue()" << std::endl;
@@ -106,6 +126,9 @@ class SparseVector{
 			return mDim;
 		};
 
+		T getZeroValue()const{
+			return mZeroValue;
+		}
 		// returns the number stored elements
 		unsigned int nonZeroes()const{
 			return mDimNonZeroData;
@@ -124,85 +147,54 @@ class SparseVector{
 		
 		};
 
+		std::vector<T> getDataIndices()const{
+			return mDataIndices;
+		}
+
 		//adds x too the current vector
 		SparseVector<T>& operator+= (SparseVector<T> const& x){
 			T mVal;
-			SparseVector sparseV(mDim);
-			sparseV.mDataIndices = mDataIndices;
-			sparseV.mDataVals = mDataVals;
-			sparseV.mDimNonZeroData =  mDimNonZeroData;
 
 			int j = 0;
 			for (auto i: x.mDataIndices)
 			{
 				mVal = getValue(i);
 				
-				std::cout << "mVal: " << mVal << " | mZeroValue: " <<  mZeroValue << std::endl;
-				std::cout << "mVal == mZeroValue" << (mVal == mZeroValue) << std::endl;
-				
-				if(mVal == mZeroValue){ // *** is 0.0 the right one, what if it is an integer???
-				
-					std::cout << "x.mDataVals[i]: " << x.mDataVals[j] << std::endl;
-				
-					sparseV.setValue(i, x.mDataVals[j]);
-				
-					std::cout << "sparseV.getValue(" << i << ") " << sparseV.getValue(i) <<std::endl;
-
+				if(mVal == mZeroValue){ 
+					setValue(i, x.mDataVals[j]);
 				}else{
-					sparseV.setValue(i, x.mDataVals[i] + mVal);
+					setValue(i, mVal + x.mDataVals[j]);
 				}
 				j++;
 			}
 			
-			sparseV.mZeroValue = mZeroValue + x.mZeroValue;
-/*
-			for (int i = 0; i < sparseV.size(); i++)
-			{
-				std::cout << "sparseV[" << i <<"]: " << sparseV.getValue(i) << std::endl;
-			}
-*/		
-			return sparseV; // ***** WTF ******
+			mZeroValue = mZeroValue + x.mZeroValue;
+		
+			return *this;
+		
 		}
 
 		//subtracts x from the current vector
 		SparseVector<T>& operator-= (SparseVector<T> const& x){
 
 			T mVal;
-			SparseVector sparseV(mDim);
-			sparseV.mDataIndices = mDataIndices;
-			sparseV.mDataVals = mDataVals;
-			sparseV.mDimNonZeroData = mDimNonZeroData;
 
 			int j = 0;
 			for (auto i: x.mDataIndices)
 			{
 				mVal = getValue(i);
 				
-				std::cout << "mVal: " << mVal << " | mZeroValue: " <<  mZeroValue << std::endl;
-				std::cout << "mVal == mZeroValue" << (mVal == mZeroValue) << std::endl;
-				
-				if(mVal == mZeroValue){ // *** is 0.0 the right one, what if it is an integer???
-				
-					std::cout << "x.mDataVals[i]: " << x.mDataVals[j] << std::endl;
-				
-					sparseV.setValue(i, -x.mDataVals[j]);
-				
-					std::cout << "sparseV.getValue(" << i << ") " << sparseV.getValue(i) <<std::endl;
-
+				if(mVal == mZeroValue){ 
+					setValue(i, -x.mDataVals[j]);
 				}else{
-					sparseV.setValue(i, mVal - x.mDataVals[i]);
+					setValue(i, mVal - x.mDataVals[j]);
 				}
 				j++;
 			}
 			
-			sparseV.mZeroValue = mZeroValue - x.mZeroValue;
-/*
-			for (int i = 0; i < sparseV.size(); i++)
-			{
-				std::cout << "sparseV[" << i <<"]: " << sparseV.getValue(i) << std::endl;
-			}
-*/		
-			return sparseV; // ***** WTF ******
+			mZeroValue = mZeroValue - x.mZeroValue;
+
+			return *this; 
 		}
 };
 
@@ -210,59 +202,119 @@ class SparseVector{
 // computes z= x+y, equivalent to z=x, z+=y
 template<class T>
 SparseVector<T> operator+(SparseVector<T> const& x, SparseVector<T> const& y){
-	assert(x.size()==y.size());
-	
+
 	T mVal;
-	SparseVector sparseV(mDim);
-	sparseV.mDataIndices = mDataIndices;
-	sparseV.mDataVals = mDataVals;
-	sparseV.mDimNonZeroData = mDimNonZeroData;
+
+	SparseVector<T> newVector(x.size());
 
 	int j = 0;
-	for (auto i: x.mDataIndices)
+
+	for (auto i: x.getDataIndices())
 	{
-		if(y.getValue(i) != y.mZeroValue){ // *** is 0.0 the right one, what if it is an integer???
-			sparseV.setValue(i, y.mDataVals[i] + x.mDataVals[j]);
-		}else{			
-			sparseV.setValue(i, x.mDataVals[j]);
+		mVal = y.getValue(i);
+		
+		if(mVal == y.getZeroValue()){ 
+			newVector.setValue(i, x.getValue(i));
+		}else{
+			newVector.setValue(i, mVal + x.getValue(i));
 		}
 		j++;
 	}
 
-	for (auto i: y.mDataIndices)
+	j = 0;
+	for (auto i: y.getDataIndices())
 	{
-		if(x.getValue(i) != x.mZeroValue){ // *** is 0.0 the right one, what if it is an integer???
+		mVal = x.getValue(i);
+		
+		if(mVal == x.getZeroValue()){ 
+			newVector.setValue(i, y.getValue(i) );
+		}else{
 			continue;
-		}else{			
-			sparseV.setValue(i, y.mDataVals[j]);
 		}
 		j++;
 	}
-	
-	sparseV.mZeroValue = mZeroValue + x.mZeroValue;
-/*
-	for (int i = 0; i < sparseV.size(); i++)
-	{
-		std::cout << "sparseV[" << i <<"]: " << sparseV.getValue(i) << std::endl;
-	}
-*/		
-	return sparseV; // ***** WTF ******
+
+	return newVector; 
+
 };
 
 // computes z= x-y, equivalent to z=x, z-=y
 template<class T>
-SparseVector<T> operator-(SparseVector<T> const& x, SparseVector<T> const& y);
+SparseVector<T> operator-(SparseVector<T> const& x, SparseVector<T> const& y){
+	T mVal;
+
+	SparseVector<T> newVector(x.size());
+
+	int j = 0;
+
+	for (auto i: x.getDataIndices())
+	{
+		mVal = y.getValue(i);
+		
+		if(mVal == y.getZeroValue()){ 
+			newVector.setValue(i, -x.getValue(i));
+		}else{
+			newVector.setValue(i, mVal - x.getValue(i));
+		}
+		j++;
+	}
+
+	j = 0;
+	for (auto i: y.getDataIndices())
+	{
+		mVal = x.getValue(i);
+		
+		if(mVal == x.getZeroValue()){ 
+			newVector.setValue(i, -y.getValue(i) );
+		}else{
+			continue;
+		}
+		j++;
+	}
+
+	return newVector; 
+};
 
 
 // computes the matrix-vector product of a dense matrix and sparse vector z=Ax.
 // The result is a dense vector.
 template<class T>
-Vector<T> operator* (Matrix<T> const& A, SparseVector<T> const& x);
+Vector<T> operator* (Matrix<T> const& A, SparseVector<T> const& x){
+	Vector<T> newVector(A.GetNumberOfRows());
+
+	for (int row = 0; row < A.GetNumberOfRows(); row++)
+	{	
+		T row_sum = 0;
+		for (int i = 0; i < x.nonZeroes(); i++)
+		{
+			T index = x.getDataIndices()[i];
+			row_sum += A(row, index)*x.getValue(index);
+		}
+		newVector[row] = row_sum;
+	}
+	
+	return newVector;
+};
 
 // computes the matrix-vector product of a dense matrix and sparse vector z=x^TA.
 // The result is a dense vector.
 template<class T>
-Vector<T> operator* (SparseVector<T> const& x, Matrix<T> const& A);
+Vector<T> operator* (SparseVector<T> const& x, Matrix<T> const& A){
+	Vector<T> newVector(A.GetNumberOfRows());
+
+	for (int col = 0; col < A.GetNumberOfColumns(); col++)
+	{	
+		T col_sum = 0;
+		for (int i = 0; i < x.nonZeroes(); i++)
+		{
+			T index = x.getDataIndices()[i];
+			col_sum += A(index, col)*x.getValue(index);
+		}
+		newVector[col] = col_sum;
+	}
+	
+	return newVector;
+};
 
 
 #endif

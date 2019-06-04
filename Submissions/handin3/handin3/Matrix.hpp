@@ -105,7 +105,14 @@ class Matrix{
 		}
 
 		T const& operator()(int i, int j)const{
-			
+			/*if((i==7) && (j>6)){
+				std::cout << "mNumCols" << mNumCols << std::endl;
+				std::cout << "i,j" << i << "," << j << std::endl;
+			}
+
+			std::cout << "mNumCols" << mNumCols << std::endl;
+			std::cout << "i,j" << i << "," << j << std::endl;
+			*/
 			assert(i >= 0);
 			assert(i < mNumRows);
 			assert(j >= 0);

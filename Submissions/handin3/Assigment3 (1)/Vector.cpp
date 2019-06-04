@@ -79,7 +79,7 @@ Vector Vector::operator-() const
 	{
 		v[i] = -mData[i];
 	}
-	return v;
+	return v;	
 }
 
 // Overloading the binary + operator

@@ -12,12 +12,13 @@ void test_ReadFile(){
     
     arma::mat dataX(200,34);
 
-    
+    Read.fillMatrix(dataX, "dataX.dat");
 
-    for (int k = 30; k < 100; k++)
+    for (int k = 30; k < 37; k++)
     {
         std::cout << "dataX[ " << 199 << ", " << k << "]: " << dataX[199,k] << std::endl;
     }   
+    
     
 }
 

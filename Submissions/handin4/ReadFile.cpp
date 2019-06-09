@@ -13,10 +13,20 @@ ReadFile::ReadFile(){};
 ReadFile::~ReadFile(){};
 
 void ReadFile::fillMatrix( arma::mat &mat, std::string fileName){
-	std::vector<std::string> lines;
+	
+    std::vector<std::string> lines;
 
     getFileContent(fileName, lines);
 
+    for (int i = 0; i < 200; i++)    {
+        if(i<10){//&& (j<50)
+            
+            //  std::cout << "\ni: " << i << " | xline: \n" << lines[i] <<  std::endl;
+
+        }
+        
+    }
+    
     std::vector<std::string> values;
     
     int i = 0;
@@ -24,26 +34,32 @@ void ReadFile::fillMatrix( arma::mat &mat, std::string fileName){
 
     for(auto x : lines)
     {
-        //std::cout << "x: " << x << std::endl;
-        
+        if((i<10) && (j==0)){//&& (j<50)
+        //std::cout << "x: " << x << "\n i: " << i << std::endl;
+        }
+
         j = 0;
 
         split1(x, values);
         
-        for(auto rowString : values)
-        {
-            //std::cout << "rowString: " << rowString << std::endl;
+        for(auto rowString : values){
+            //std::cout << "rowString: " << rowString << " | i: " << i << std::endl;
             //std::cout << "i,j: [" << i << ", " << j << "]" << std::endl;
 
             double rowDouble = std::stod(rowString);
             
-            if((i>198) && (j>30) && (j<50) ){
-                std::cout << "rowDouble: " << rowDouble << " |i,j: [" << i << ", " << j << "]" << std::endl;
+            if((i<10) && (j==0)){//&& (j<50)
+                //std::cout << "rowDouble: " << rowDouble << " |i,j: [" << i << ", " << j << "]" << std::endl;
+                //std::cout << "rowDouble: " << rowDouble << " |i,j: [" << i << ", " << j << "]" << std::endl;
+                //std::cout << "rowString: " << rowString << " | i: " << i << std::endl;
+
             }
 
-            mat[i,j] = rowDouble;
+            mat(i,j) = rowDouble;
+            //std::cout << "mat[" << i << ", " << j << "]: " << mat[i,j] <<  std::endl;
 
             j++;
+
         }
         
         i++;

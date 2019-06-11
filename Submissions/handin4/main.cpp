@@ -20,7 +20,7 @@ void nearestNeighbour(arma::mat& dataX, arma::mat& dataXtest, arma::mat& labelsY
     double distance;
     arma::rowvec rowdX(cols);
 
-    for (int rowX = 0; rowX < nRowsX; rowX++)
+    for(int rowX = 0; rowX < nRowsX; rowX++)
     {   
         // calc vector between point and other point
         rowdX = dataXtest.row(rowTest) - dataX.row(rowX);
@@ -29,21 +29,25 @@ void nearestNeighbour(arma::mat& dataX, arma::mat& dataXtest, arma::mat& labelsY
         
         // Create vector with relevant info of the point close to it (distance, label, index)
         distLabels.distance = distance; 
-        distLabels.label = (double) labelsY(rowTest,0);
-        distLabels.index = (double)rowTest;
+        distLabels.label = (double) labelsY(rowX,0);
+        distLabels.index = (double) rowX;
         
         allVec.push_back(distLabels);
 
         
     }
+
 }
 
-int calcLabel(std::vector<distLabel> &allVec, int guess){
+int calcLabel(std::vector<int> &top5labels){
     // calc label (sum top 5 of allvec)
     //std::cout << "\n" << std::endl;
-    for (int i = 0; i < 5; i++){
-        //std::cout << "allVec[i][1]: " << allVec[i][1] << " " << allVec[i][0] << std::endl;
-        guess += allVec[i].label;
+    int guess = 0;
+    
+    for(auto x : top5labels)
+    {
+        //std::cout << "label: " << x << std::endl;
+        guess += x;
     }
     
     //std::cout << "guess" << guess << std::endl;
@@ -53,44 +57,82 @@ int calcLabel(std::vector<distLabel> &allVec, int guess){
 }
 
 void giveLabels( std::vector<distLabel> &allVec, std::vector<int> &guessLabels){
-    
-    int guess = 0;
 
     // sort vector of vectors:
-    std::cout << "\n" << std::endl;
+    //std::cout << "\n" << std::endl;
+    //std::cout << "allVec[x]: " <<  allVec[0].distance << " , " << allVec[0].index << std::endl;
     
-    std::cout << "allVec[x]: " <<  allVec[0].distance << " , " << allVec[0].index << std::endl;
-    
+    std::vector<int> top5labels;
+    std::vector<int> top5Indices;
 
-    std::sort(allVec.begin(), allVec.end(), [](const distLabel& a, const distLabel& b){ return a.distance < b.distance; } );
+    //std::sort(allVec.begin(), allVec.end(), [](const distLabel& a, const distLabel& b){ return a.distance < b.distance; } );
     
-    std::cout << "allVec[x]: " <<  allVec[0].distance << " , " << allVec[0].index << std::endl;
+    // Sort labels
+    double minDist = 10000; 
+    int label, index;
+    bool c = false;
 
+    for (int i = 0; i < 5; i++)
+    {
+        //std::cout << "\n" << "round: "<< i+1 << std::endl;
+        for(auto x : allVec){
+            //std::cout << "allVec[x]: " << x.distance << ", " << x.label << ", " << x.index << std::endl;
+            for(auto y : top5Indices){
+                //std::cout << "top5Indices y: " << y << std::endl;
+                if (i==1){
+                    //std::cout << "\nx.index, y: "  << x.index << ", " << y << std::endl;
+                    //std::cout << "x.index == y: " << (x.index == y) << std::endl;
+                }
+                
+                
+                if(x.index == y){
+                    c = true;
+                    //std::cout << "allVec[x]: " << x.distance << ", " << x.label << ", " << x.index << std::endl;
+                }
+            }
+            //std::cout << "leaving: for(auto y : top5Indices)" << std::endl;
+            if(c){
+                c = false; 
+                continue;
+            }
+           
+            //std::cout << "allVec[x].distance < minDist: " << x.distance << " < " << minDist << " | x.index: " << x.index << std::endl;
+           
+            if (x.distance < minDist){
+                minDist = x.distance; 
+                //std::cout << "miniDist: " << minDist << ", " << x.index << ", " << x.label << std::endl;
+                
+                label = x.label;
+                index = x.index;
+            }
+            
+        }
+        //std::cout << "leaving: for(auto x : allVec)" << std::endl;
+        top5labels.push_back(label);
+        top5Indices.push_back(index);
+    }
+    
+    
+    //std::cout << "allVec[x]: " <<  allVec[0].distance << " , " << allVec[0].index << std::endl;
+    
     // calc label (sum top 5 labels of allvec)
-    guess = calcLabel(allVec, guess);
+    int guess = calcLabel(top5labels);
     guessLabels.push_back(guess/std::abs(guess)); // Set labels
 
 }
 
-void testForCorrectness( arma::mat labelsY, std::vector<int> guessLabels){
+void testForCorrectness( arma::mat labelsY, std::vector<int> guessLabels, int nRowsXtest){
     
-    //int True = -1;
-    
-    //True = std::pow(-1, rowTest); 
-
-    //guess = calcLabel(allVec, guess);
     int correct = 0;
 
-    for (int i = 0; i < 151; i++)
+    for (int i = 0; i < nRowsXtest; i++)
     {
         correct += labelsY(i,0)==guessLabels[i];
     
-        //std::cout << "guess: " << guessLabels[i] << " , " <<  labelsY(i,0) << " label" << " (" << i + 1 << ")" << std::endl;
+        std::cout << "guess: " << guessLabels[i] << " , " <<  labelsY(i,0) << " label" << " (" << i + 1 << ")" << std::endl;
     }
 
     std::cout << "correct: " << correct << std::endl;
-    
-
 }
 
 void test_ReadFile(){
@@ -125,12 +167,13 @@ void test_ReadFile(){
         
         giveLabels( allVec, guessLabels );
         
+        //std::cout << "allVec.size" << allVec.size() << std::endl;
         allVec.clear(); // reset allVec to reuse it 
     
     }
 
     // Print correct number out of 200
-    testForCorrectness( labelsY, guessLabels ); 
+    testForCorrectness( labelsY, guessLabels, nRowsXtest ); 
 /*
     for (size_t i = 0; i < nRowsX; i++){
 

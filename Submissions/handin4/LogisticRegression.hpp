@@ -1,3 +1,4 @@
+/*
 #include "armadillo.hpp"
 #include "ReadFile.hpp"
 
@@ -28,3 +29,5 @@ public:
         
     ~LogisticRegression();
 };
+
+ */

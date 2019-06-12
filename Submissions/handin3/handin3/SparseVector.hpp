@@ -54,70 +54,47 @@ class SparseVector{
 		//sets the value v_i of the vector. if it does not exist it is added 
 		void setValue(unsigned int index, T value){
 			assert(index<mDim);
-			//std::cout << "mDimNonZeroData:" << mDimNonZeroData << std::endl;
-/*			
-			for (int i = 0; i < mDimNonZeroData; i++)
-			{
-				if(index == mDataIndices[i]){
-					mDataVals[i] = value;
-					//std::cout << "1 Leaving setValue() " << std::endl;
-					break;
-				}
-
-				if( index < mDataIndices[i] ){
-					auto itInd = mDataIndices.begin();
-					mDataIndices.insert(itInd+i, index);
-				
-					auto itVal = mDataVals.begin();
-					mDataVals.insert(itVal+i, value);
-					mDimNonZeroData++;
-					//std::cout << "2 Leaving setValue() " << std::endl;
-					break;
-				}
-
-				if ( i == mDimNonZeroData-1 )
-				{
-					mDataVals.push_back(value);
-					mDataIndices.push_back(index);
-					mDimNonZeroData++;
-				}
-				
-			}
 			
-			if (mDimNonZeroData == 0)
-			{
-				mDataVals.push_back(value);
-				mDataIndices.push_back(index);
-				//std::cout << "mDataVals[0]: " << mDataVals[0] << std::endl;
-			}
-			
-			mDimNonZeroData++;
-			//std::cout << "3 Leaving setValue() " << std::endl;
+			// Check for value
+			int localIndex;
+		
+			auto result1 = std::find(std::begin(mDataIndices), std::end(mDataIndices), index);
 
-*/
-			//std::cout << "mDimNonZeroData (get): " << mDimNonZeroData << std::endl;
-			mDataVals.push_back(value);
-			mDataIndices.push_back(index);
+			std::cout << "result1" << result1 << std::endl;
+			
+			if (result1 != std::end(mDataIndices)) {
+				std::cout << "v contains: " << '\n';
+				localIndex = std::distance(std::begin(mDataIndices), result1);
+				mDataVals[localIndex] = value;
+			} else {
+				std::cout << "v does not contain: " << n1 << '\n';
+				mDataIndices.insert(mDataIndices.end());
+				mDataVals.insert(mDataVals.end())
+			}
 		
 		};
 		
 		//returns the value v_i of the vector. Returns 0 if the value is not stored
 		T getValue(unsigned int index)const{
-			// std::cout << "in getValue()" << std::endl;
-			// std::cout << "mDimNonZeroData " << mDimNonZeroData << std::endl;
+			assert(index<mDim);
+			
+			// Check for value
+			int localIndex;
+		
+			auto result1 = std::find(std::begin(mDataIndices), std::end(mDataIndices), index);
 
-			for (int i = 0; i < mDimNonZeroData; i++)
-			{
-				//std::cout << "get " << i << std::endl;
-				//std::cout << "index " << index << std::endl;
-				//std::cout << "mDataIndices[i] " << mDataIndices[i] << std::endl;
-				if(index == mDataIndices[i]){
-					return mDataVals[i];
-				}
+			std::cout << "result1" << result1 << std::endl;
+			
+			if (result1 != std::end(mDataIndices)) {
 				
+				std::cout << "v contains: " << n1 << '\n';
+				localIndex = std::distance(std::begin(mDataIndices), result1)
+				return mDataVals[localIndex];
+
+			} else {
+				return mZeroValue;				
 			}
-			// std::cout << "LEaving getvalue()" << std::endl;
-			return mZeroValue;
+
 			
 		};
 

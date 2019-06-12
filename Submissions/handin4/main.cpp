@@ -7,36 +7,35 @@
 #include <string>
 #include <cmath>
 
-//using namespace arma;
+/*
+ReadMe:
+Call NearestNeighbourMain()
+*/
 
 struct distLabel{ 
     double distance, label, index;
 };
 
 void nearestNeighbour(arma::mat& dataX, arma::mat& dataXtest, arma::mat& labelsY, 
-                        distLabel distLabels, std::vector<distLabel> &allVec,
-                        int rowTest, int nRowsX){
+                        distLabel distLabels, std::vector<distLabel> &allVec, int rowTest){
     
-    
-    int cols = 34;
     double distance;
-    arma::rowvec rowdX(cols);
+    arma::rowvec rowdX(dataXtest.n_cols);
 
-    for(int rowX = 0; rowX < nRowsX; rowX++)
+    for(int rowX = 0; rowX < dataX.n_rows; rowX++)
     {   
         // calc vector between point and other point
         rowdX = dataXtest.row(rowTest) - dataX.row(rowX);
 
         distance = norm(rowdX);
-        
+
         // Create vector with relevant info of the point close to it (distance, label, index)
+
         distLabels.distance = distance; 
         distLabels.label = (double) labelsY(rowX,0);
         distLabels.index = (double) rowX;
         
         allVec.push_back(distLabels);
-
-        
     }
 
 }
@@ -60,84 +59,74 @@ int calcLabel(std::vector<int> &top5labels){
 
 void giveLabels( std::vector<distLabel> &allVec, std::vector<int> &guessLabels){
 
-    // sort vector of vectors:
-    //std::cout << "\n" << std::endl;
-    //std::cout << "allVec[x]: " <<  allVec[0].distance << " , " << allVec[0].index << std::endl;
-    
     std::vector<int> top5labels;
     std::vector<int> top5Indices;
+    std::vector<double> top5Dist;
 
-    //std::sort(allVec.begin(), allVec.end(), [](const distLabel& a, const distLabel& b){ return a.distance < b.distance; } );
-    
+    std::cout << "\ngivelabels()" << std::endl;
     // Sort labels
-    double minDist = 10000; 
+    double minDist = 100000000; 
     int label, index;
     bool c = false;
 
     for (int i = 0; i < 5; i++)
     {
-        //std::cout << "\n" << "round: "<< i+1 << std::endl;
         for(auto x : allVec){
-            //std::cout << "allVec[x]: " << x.distance << ", " << x.label << ", " << x.index << std::endl;
-            for(auto y : top5Indices){
-                //std::cout << "top5Indices y: " << y << std::endl;
-                if (i==1){
-                    //std::cout << "\nx.index, y: "  << x.index << ", " << y << std::endl;
-                    //std::cout << "x.index == y: " << (x.index == y) << std::endl;
-                }
-                
-                
-                if(x.index == y){
-                    c = true;
-                    //std::cout << "allVec[x]: " << x.distance << ", " << x.label << ", " << x.index << std::endl;
-                }
+            for(auto y : top5Indices){    
+                c = (x.index == y? true:false);
             }
-            //std::cout << "leaving: for(auto y : top5Indices)" << std::endl;
+
             if(c){
-                c = false; 
+                c = false;
+                //std::cout << "continue" << std::endl;
                 continue;
             }
            
-            //std::cout << "allVec[x].distance < minDist: " << x.distance << " < " << minDist << " | x.index: " << x.index << std::endl;
-           
             if (x.distance < minDist){
-                minDist = x.distance; 
-                //std::cout << "miniDist: " << minDist << ", " << x.index << ", " << x.label << std::endl;
-                
+                minDist = x.distance;
+                std::cout << "minDist: " << minDist << " x.index: " << x.index << std::endl;                 
                 label = x.label;
                 index = x.index;
             }
             
         }
-        //std::cout << "leaving: for(auto x : allVec)" << std::endl;
         top5labels.push_back(label);
         top5Indices.push_back(index);
+        top5Dist.push_back(minDist);
+        
     }
+    std::sort(allVec.begin(), allVec.end(), [](const distLabel& a, const distLabel& b){ 
+    //If you want to sort in ascending order, then substitute > with <
+    return a.distance < b.distance; 
+    }); 
     
+    std::cout << "allvec[0]" << allVec[0].distance << ", " << top5Dist[0] << " allvec.index[0]" << allVec[0].index << ", " << top5Indices[0] << std::endl;
+    std::cout << "allvec[1]" << allVec[1].distance << ", " << top5Dist[1] << " allvec.index[1]" << allVec[0].index << ", " << top5Indices[1] << std::endl;
     
-    //std::cout << "allVec[x]: " <<  allVec[0].distance << " , " << allVec[0].index << std::endl;
-    
-    // calc label (sum top 5 labels of allvec)
     int guess = calcLabel(top5labels);
     guessLabels.push_back(guess/std::abs(guess)); // Set labels
 
 }
 
-void testForCorrectness( arma::mat labelsY, std::vector<int> guessLabels, int nRowsXtest){
+void testForCorrectness( arma::mat labelsY, std::vector<int> guessLabels){
     
+    arma::colvec logRegLabels;
+    logRegLabels.load("LogReg.dat");
+
     int correct = 0;
 
-    for (int i = 0; i < nRowsXtest; i++)
+    for (int i = 0; i < logRegLabels.n_elem; i++)
     {
-        correct += labelsY(i,0)==guessLabels[i];
+        correct += logRegLabels(i)==guessLabels[i];
     
-        std::cout << "guess: " << guessLabels[i] << " , " <<  labelsY(i,0) << " label" << " (" << i + 1 << ")" << std::endl;
+        std::cout << "guess: " << guessLabels[i] << " , " << logRegLabels(i) << " label" << " (" << i + 1 << ")" 
+            << " " << (logRegLabels(i)==guessLabels[i]? "True":"False") << std::endl;
     }
 
-    std::cout << "correct: " << correct << std::endl;
+    std::cout << "correct: " << correct << " %: " << 100.0*correct/logRegLabels.n_elem << " Nfasls: " << logRegLabels.n_elem-correct << std::endl;
 }
 
-void test_ReadFile(){
+void nearestNeighbourMain(){
 
     int cols        = 34;
     int nRowsX      = 200;
@@ -162,10 +151,10 @@ void test_ReadFile(){
     Read.fillMatrix(dataXtest, "dataXtest.dat");    
     Read.fillMatrix(labelsY, "dataY.dat");
 
-    for (int rowTest = 0; rowTest < nRowsXtest; rowTest++)
+    for (int rowTest = 0; rowTest < dataXtest.n_rows; rowTest++)
     {
         
-        nearestNeighbour( dataX, dataXtest, labelsY, distLabels, allVec, rowTest, nRowsX );
+        nearestNeighbour( dataX, dataXtest, labelsY, distLabels, allVec, rowTest );
         
         giveLabels( allVec, guessLabels );
         
@@ -175,7 +164,8 @@ void test_ReadFile(){
     }
 
     // Print correct number out of 200
-    testForCorrectness( labelsY, guessLabels, nRowsXtest ); 
+    testForCorrectness( labelsY, guessLabels); 
+    Read.writeToFile(guessLabels, "NN.dat");
 /*
     for (size_t i = 0; i < nRowsX; i++){
 
@@ -187,8 +177,8 @@ void test_ReadFile(){
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-double signF(arma::mat f){
-    return ( f[0] < 0 ? -1:+1 );
+double signF(double f){
+    return (double)( f < 0 ? -1:+1 );
 }
 
 void logisticRegression(){
@@ -197,7 +187,7 @@ void logisticRegression(){
     int nRowsXtest  = 151;
     int guess       = 0;
 
-    double y, expF;
+    double f, y, expF;
     double limitE = 1;
     
 
@@ -207,57 +197,56 @@ void logisticRegression(){
     arma::mat    x(nRowsX,cols);
     arma::mat    xTest(nRowsXtest,cols);
     
-    arma::mat    f, dLw(1, cols), wT(1, cols);
+    arma::mat    dLw(1, cols), wT(1, cols);
     
+    std::vector<int> labels;
 
     wT.zeros();
-    //wT.print();
 
     Read.fillMatrix(x, "dataX.dat");
     Read.fillMatrix(xTest, "dataXtest.dat");    
     Read.fillMatrix(labelsY, "dataY.dat");
     
-    //f.print();
     int j = 0;
-    //std::cout << "0" << std::endl;
     
-    double alpha = 0.4;
+    double alpha = 0.3;
 
     while (limitE>(1.0/10000000.0))
     {
+        // Compute sum:
         for(int i = 0; i < nRowsX; i++)
         {   
 
-            f = wT*x.row(i).t();
-            //std::cout << "1" << std::endl;
-            y = signF(f);
-            //std::cout << "2" << std::endl;
-            expF = 1 + exp(y*f[0]);
-            //std::cout << "3" << std::endl;
+            f = dot(wT, x.row(i));
+            
+            y = labelsY(i);
+            
+            expF = 1 + exp(y*f);
+            
             dLw += y*(1.0/expF)*x.row(i);
-            //std::cout << "4" << std::endl;
+            j++;
         }
-        
-        dLw = -(1/34.0)*dLw;
 
+        dLw = (-1.0/34.0)*dLw;
         limitE = norm(dLw);
-        
-        wT = wT-alpha*dLw;
-        j++;
-    }
-    std::cout << "number of loops, j: " << j << std::endl;
-    
-    for (int i = 0; i < nRowsX-180; i++)
-    {   
-        f = wT*x.row(i).t();
-        y = signF(f);
-        std::cout << y << std::endl;
-    }
-    
-    
 
+        wT += -alpha*dLw;
+
+        dLw.zeros();
+        
+    }
     
-    
+    std::cout << "number of loops, j: " << j/200.0 << " | Total: " << j << std::endl;
+
+    for (int i = 0; i < 151; i++)
+    {   
+        f = dot(wT, xTest.row(i));
+        y = signF(f);
+        labels.push_back((int)y);
+
+        //std::cout << y << std::endl;
+    }    
+    Read.writeToFile(labels, "LogReg.dat");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -266,7 +255,7 @@ void logisticRegression(){
 int main(int argc, char const *argv[])
 {   
 
-    //test_ReadFile();
+    nearestNeighbourMain();
     logisticRegression();
     return 0;
 }

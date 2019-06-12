@@ -256,7 +256,9 @@ void sparsevector(){
     /////////////////////////////////
     // Matrix sparse-vector multiplication dv=M*sv:
     Vector<double> vec(n);
-
+    vec[0] = 1;
+    vec[2] = 3;
+    
     Matrix<double> mat(n,n);
     for (int i = 0; i < n; i++)
     {

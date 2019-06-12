@@ -20,6 +20,8 @@ public:
     
     void fillMatrix(arma::mat &mat, std::string filename);
 
+    void writeToFile(std::vector<int>& guesses, std::string name);
+
     ~ReadFile();
 };
 

@@ -7,6 +7,9 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <fstream>
+#include <iostream>
+#include <iomanip>
 #include "armadillo.hpp"
 
 ReadFile::ReadFile(){};
@@ -101,3 +104,14 @@ bool ReadFile::getFileContent(std::string fileName, std::vector<std::string> & v
 	in.close();
 	return true;
 }
+
+void ReadFile::writeToFile(std::vector<int>& guesses, std::string name ){
+    std::ofstream outputfile(name);
+
+    for(auto x : guesses)
+    {
+        outputfile << std::fixed << x << std::endl;
+    }
+    outputfile.close();
+
+};

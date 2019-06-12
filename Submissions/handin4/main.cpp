@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
+
 //using namespace arma;
 
 struct distLabel{ 
@@ -182,10 +184,89 @@ void test_ReadFile(){
 */
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+double signF(arma::mat f){
+    return ( f[0] < 0 ? -1:+1 );
+}
+
+void logisticRegression(){
+    int cols        = 34;
+    int nRowsX      = 200;
+    int nRowsXtest  = 151;
+    int guess       = 0;
+
+    double y, expF;
+    double limitE = 1;
+    
+
+    ReadFile Read;
+    
+    arma::mat    labelsY(nRowsX,1);
+    arma::mat    x(nRowsX,cols);
+    arma::mat    xTest(nRowsXtest,cols);
+    
+    arma::mat    f, dLw(1, cols), wT(1, cols);
+    
+
+    wT.zeros();
+    //wT.print();
+
+    Read.fillMatrix(x, "dataX.dat");
+    Read.fillMatrix(xTest, "dataXtest.dat");    
+    Read.fillMatrix(labelsY, "dataY.dat");
+    
+    //f.print();
+    int j = 0;
+    //std::cout << "0" << std::endl;
+    
+    double alpha = 0.4;
+
+    while (limitE>(1.0/10000000.0))
+    {
+        for(int i = 0; i < nRowsX; i++)
+        {   
+
+            f = wT*x.row(i).t();
+            //std::cout << "1" << std::endl;
+            y = signF(f);
+            //std::cout << "2" << std::endl;
+            expF = 1 + exp(y*f[0]);
+            //std::cout << "3" << std::endl;
+            dLw += y*(1.0/expF)*x.row(i);
+            //std::cout << "4" << std::endl;
+        }
+        
+        dLw = -(1/34.0)*dLw;
+
+        limitE = norm(dLw);
+        
+        wT = wT-alpha*dLw;
+        j++;
+    }
+    std::cout << "number of loops, j: " << j << std::endl;
+    
+    for (int i = 0; i < nRowsX-180; i++)
+    {   
+        f = wT*x.row(i).t();
+        y = signF(f);
+        std::cout << y << std::endl;
+    }
+    
+    
+
+    
+    
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, char const *argv[])
 {   
 
-    test_ReadFile();
-    
+    //test_ReadFile();
+    logisticRegression();
     return 0;
 }

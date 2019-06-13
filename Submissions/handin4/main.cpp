@@ -11,16 +11,20 @@
 ReadMe:
 Call NearestNeighbourMain()
 */
+////////////////////////////////////////////////////////////////////////////////////////////
 
 struct distLabel{ 
     double distance, label, index;
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 void nearestNeighbour(arma::mat& dataX, arma::mat& dataXtest, arma::mat& labelsY, 
                         distLabel distLabels, std::vector<distLabel> &allVec, int rowTest){
     
     double distance;
     arma::rowvec rowdX(dataXtest.n_cols);
+    
 
     for(int rowX = 0; rowX < dataX.n_rows; rowX++)
     {   
@@ -32,13 +36,15 @@ void nearestNeighbour(arma::mat& dataX, arma::mat& dataXtest, arma::mat& labelsY
         // Create vector with relevant info of the point close to it (distance, label, index)
 
         distLabels.distance = distance; 
-        distLabels.label = (double) labelsY(rowX,0);
+        distLabels.label = (double) labelsY[rowX];
         distLabels.index = (double) rowX;
         
         allVec.push_back(distLabels);
     }
 
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 int calcLabel(std::vector<int> &top5labels){
     // calc label (sum top 5 of allvec)
@@ -57,7 +63,9 @@ int calcLabel(std::vector<int> &top5labels){
 
 }
 
-void giveLabels( std::vector<distLabel> &allVec, std::vector<int> &guessLabels){
+////////////////////////////////////////////////////////////////////////////////////////////
+
+void giveLabels( std::vector<distLabel> &allVec, std::vector<int> &guessLabels, arma::mat labelsY){
 
     std::vector<int> top5labels;
     std::vector<int> top5Indices;
@@ -72,8 +80,12 @@ void giveLabels( std::vector<distLabel> &allVec, std::vector<int> &guessLabels){
     for (int i = 0; i < 5; i++)
     {
         for(auto x : allVec){
-            for(auto y : top5Indices){    
-                c = (x.index == y? true:false);
+            for(auto y : top5Indices){ 
+                if (x.index == y)
+                {
+                    c = true;
+                }
+                  
             }
 
             if(c){
@@ -81,32 +93,49 @@ void giveLabels( std::vector<distLabel> &allVec, std::vector<int> &guessLabels){
                 //std::cout << "continue" << std::endl;
                 continue;
             }
-           
+
+/*
+            if (x.distance == 0.0)
+            {
+                continue;
+            }
+*/
+
             if (x.distance < minDist){
                 minDist = x.distance;
-                std::cout << "minDist: " << minDist << " x.index: " << x.index << std::endl;                 
+                //std::cout << "minDist: " << minDist << " x.index: " << x.index << std::endl;                 
                 label = x.label;
                 index = x.index;
             }
             
         }
+        std::cout << "minDist: " << minDist << " x.index: " << index << std::endl; 
         top5labels.push_back(label);
         top5Indices.push_back(index);
         top5Dist.push_back(minDist);
+
+        minDist = 100000000;
         
     }
-    std::sort(allVec.begin(), allVec.end(), [](const distLabel& a, const distLabel& b){ 
+    //std::sort(allVec.begin(), allVec.end(), [](const distLabel& a, const distLabel& b){ 
     //If you want to sort in ascending order, then substitute > with <
-    return a.distance < b.distance; 
-    }); 
+    //return a.distance < b.distance; 
+    //}); 
     
     std::cout << "allvec[0]" << allVec[0].distance << ", " << top5Dist[0] << " allvec.index[0]" << allVec[0].index << ", " << top5Indices[0] << std::endl;
-    std::cout << "allvec[1]" << allVec[1].distance << ", " << top5Dist[1] << " allvec.index[1]" << allVec[0].index << ", " << top5Indices[1] << std::endl;
+    std::cout << "top5label: " << top5labels[0] << ", " << top5labels[1] << ", " << top5labels[2] << ", " << top5labels[3] << ", " << top5labels[4] << std::endl;
+    std::cout << "top5Y    : " << labelsY[top5Indices[0]] << ", " << labelsY[top5Indices[1]] << ", " << labelsY[top5Indices[2]] << ", " 
+              << labelsY[top5Indices[3]] << ", " << labelsY[top5Indices[4]] << std::endl;
+
+    std::cout << "top5Indicies: " << top5Indices[0] << ", " << top5Indices[1] << ", " << top5Indices[2] << ", " << top5Indices[3] << ", " << top5Indices[4] << std::endl;
+    std::cout << "top5Dist: " << top5Dist[0] << ", " << top5Dist[1] << ", " << top5Dist[2] << ", " << top5Dist[3] << ", " << top5Dist[4] << std::endl;
     
     int guess = calcLabel(top5labels);
     guessLabels.push_back(guess/std::abs(guess)); // Set labels
 
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 void testForCorrectness( arma::mat labelsY, std::vector<int> guessLabels){
     
@@ -116,15 +145,22 @@ void testForCorrectness( arma::mat labelsY, std::vector<int> guessLabels){
     int correct = 0;
 
     for (int i = 0; i < logRegLabels.n_elem; i++)
+    //for (int i = 0; i < labelsY.n_elem; i++)    
     {
-        correct += logRegLabels(i)==guessLabels[i];
+        correct += logRegLabels[i]==guessLabels[i];
+        //correct += labelsY[i]==guessLabels[i];
     
         std::cout << "guess: " << guessLabels[i] << " , " << logRegLabels(i) << " label" << " (" << i + 1 << ")" 
-            << " " << (logRegLabels(i)==guessLabels[i]? "True":"False") << std::endl;
+                  << " " << (logRegLabels(i)==guessLabels[i]? "True":"False") << std::endl;
+        //std::cout << "guess: " << guessLabels[i] << " , " << labelsY[i] << " label" << " (" << i + 1 << ")" 
+        //<< " " << (labelsY[i]==guessLabels[i]? "True":"False") << std::endl;
     }
 
-    std::cout << "correct: " << correct << " %: " << 100.0*correct/logRegLabels.n_elem << " Nfasls: " << logRegLabels.n_elem-correct << std::endl;
+    std::cout << "correct: " << correct << " %: " << 100.0*correct/logRegLabels.n_elem << " Nfalse: " << logRegLabels.n_elem-correct << std::endl;
+    //std::cout << "correct: " << correct << " %: " << 100.0*correct/labelsY.n_elem << " Nfalse: " << labelsY.n_elem-correct << std::endl;
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 void nearestNeighbourMain(){
 
@@ -152,11 +188,12 @@ void nearestNeighbourMain(){
     Read.fillMatrix(labelsY, "dataY.dat");
 
     for (int rowTest = 0; rowTest < dataXtest.n_rows; rowTest++)
+    //for (int rowTest = 0; rowTest < dataX.n_rows; rowTest++)
     {
         
         nearestNeighbour( dataX, dataXtest, labelsY, distLabels, allVec, rowTest );
-        
-        giveLabels( allVec, guessLabels );
+        //nearestNeighbour( dataX, dataX, labelsY, distLabels, allVec, rowTest );
+        giveLabels( allVec, guessLabels, labelsY );
         
         //std::cout << "allVec.size" << allVec.size() << std::endl;
         allVec.clear(); // reset allVec to reuse it 

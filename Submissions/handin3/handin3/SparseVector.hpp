@@ -6,6 +6,8 @@
 
 #include <vector>
 #include <cassert>
+#include <algorithm>
+#include <iterator>
 
 template<class T>
 class SparseVector{
@@ -13,7 +15,7 @@ class SparseVector{
 	private:
 		//Add your data members here!
 		std::vector<T> mDataVals;
-		std::vector<T> mDataIndices;
+		std::vector<int> mDataIndices;
 		int mDim;
 		int mDimNonZeroData = 0;
 		T mZeroValue = 0;
@@ -36,14 +38,11 @@ class SparseVector{
 		}
 		//creates an empty vector of dimensionality 0.
 		SparseVector(){
-			mDataVals = std::vector<T>();
-			mDataIndices = std::vector<T>();
+			mDim = 0;
 		};
 		// Creates a vector of dimensionality dim. It starts with 0 nonzero elements
 		// which need to be set using setValue
 		SparseVector(unsigned int dim){
-			mDataVals = std::vector<T>();
-			mDataIndices = std::vector<T>();
 			mDim = dim;
 		};
 		
@@ -53,23 +52,24 @@ class SparseVector{
 
 		//sets the value v_i of the vector. if it does not exist it is added 
 		void setValue(unsigned int index, T value){
-			assert(index<mDim);
+			//assert(index<mDim);
 			
 			// Check for value
 			int localIndex;
-		
-			auto result1 = std::find(std::begin(mDataIndices), std::end(mDataIndices), index);
+			std::cout << "1" << std::endl;
+			
+			auto result1 = std::find(mDataIndices.begin(), mDataIndices.end(), index);
 
-			std::cout << "result1" << result1 << std::endl;
+			std::cout << "result1" <<  std::endl;
 			
 			if (result1 != std::end(mDataIndices)) {
 				std::cout << "v contains: " << '\n';
 				localIndex = std::distance(std::begin(mDataIndices), result1);
 				mDataVals[localIndex] = value;
 			} else {
-				std::cout << "v does not contain: " << n1 << '\n';
-				mDataIndices.insert(mDataIndices.end());
-				mDataVals.insert(mDataVals.end())
+				std::cout << "v does not contain: "  << '\n';
+				mDataIndices.push_back(value);
+				mDataVals.push_back(value);
 			}
 		
 		};
@@ -81,14 +81,14 @@ class SparseVector{
 			// Check for value
 			int localIndex;
 		
-			auto result1 = std::find(std::begin(mDataIndices), std::end(mDataIndices), index);
+			auto result1 = std::find(mDataIndices.begin(), mDataIndices.end(), index);
 
-			std::cout << "result1" << result1 << std::endl;
+			//std::cout << "result1" << result1 << std::endl;
 			
 			if (result1 != std::end(mDataIndices)) {
 				
-				std::cout << "v contains: " << n1 << '\n';
-				localIndex = std::distance(std::begin(mDataIndices), result1)
+				std::cout << "v contains: " << '\n';
+				localIndex = std::distance(std::begin(mDataIndices), result1);
 				return mDataVals[localIndex];
 
 			} else {
@@ -124,7 +124,7 @@ class SparseVector{
 		
 		};
 
-		std::vector<T> getDataIndices()const{
+		std::vector<int> getDataIndices()const{
 			return mDataIndices;
 		}
 

@@ -215,7 +215,7 @@ void unit_tests(){
 
 void sparsevector(){
 
-    int n = 4;
+    int n = 10;
 
     // Creation
     SparseVector<double> sparse(n), sparse1(n), sparse2(n);
@@ -223,10 +223,10 @@ void sparsevector(){
     
     
     // Set Value
-    sparse.setValue(3,1);
+    sparse.setValue(3, 1129.0);
     //sparse.setValue(4,1);
     //sparse.setValue(9,1);
-    sparse1.setValue(1,1.0);
+    sparse1.setValue(1, 54.0);
 
     std::cout << "sparse after setting value:" << std::endl;
     for (int i = 0; i < sparse.size(); i++)

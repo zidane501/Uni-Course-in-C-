@@ -273,7 +273,7 @@ void logisticRegression(){
         
     }
     
-    std::cout << "number of loops, j: " << j/200.0 << " | Total: " << j << std::endl;
+    //std::cout << "number of loops, j: " << j/200.0 << " | Total: " << j << std::endl;
 
     for (int i = 0; i < 151; i++)
     {   

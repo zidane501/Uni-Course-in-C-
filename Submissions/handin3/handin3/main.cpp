@@ -226,12 +226,12 @@ void sparsevector(){
     sparse.setValue(3, 1129.0);
     //sparse.setValue(4,1);
     //sparse.setValue(9,1);
-    sparse1.setValue(1, 54.0);
+    sparse1.setValue(1, 100.0);
 
     std::cout << "sparse after setting value:" << std::endl;
     for (int i = 0; i < sparse.size(); i++)
     {
-        std::cout << "sparse[i] " << sparse.getValue(i) << std::endl;
+        std::cout << "sparse[i]: " << sparse.getValue(i) << std::endl;
     }
     
     //sparse += sparse1; 
@@ -255,27 +255,30 @@ void sparsevector(){
     
     /////////////////////////////////
     // Matrix sparse-vector multiplication dv=M*sv:
-    Vector<double> vec(n);
-    vec[0] = 1;
-    vec[2] = 3;
+    SparseVector<double> vecSparse(n);
+    vecSparse.setValue(4,2);
+    vecSparse.setValue(2,2);
     
     Matrix<double> mat(n,n);
     for (int i = 0; i < n; i++)
     {
+        //std::cout << "vecSparse.getValue(" << i <<  "): " <<  vecSparse.getValue(i) << std::endl;
         for (int j = 0; j < n; j++)
        {
-            mat(i,j) = rand() % 10;
+            mat(i,j) =  10;
             std::cout << "mat(" << i << "," << j << "): " <<  mat(i,j) << ", ";
         }
         
     }
     
-    vec = sparse*mat;
+    Vector<double> VecDense(10);
 
-    std::cout << "vec = sparse*mat:" << std::endl;
-    for (int i = 0; i < vec.size(); i++)
+    VecDense = mat*vecSparse;
+
+    std::cout << "VecDense = mat*vecSparse:" << std::endl;
+    for (int i = 0; i < vecSparse.size(); i++)
     {
-        std::cout << "vec[" << i << "]: " << vec[i] << std::endl;
+        std::cout << "VecDense[" << i << "]: " << VecDense[i] << std::endl;
     }
 }
 

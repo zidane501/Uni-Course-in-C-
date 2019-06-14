@@ -28,11 +28,15 @@ class SparseVector{
 		SparseVector(const SparseVector<T>& otherVector){
 			std::cout << "Enter "<< " *Vector(const Vector<T>& otherVector)* - copyconstructor" << std::endl;
 
-			mDim = otherVector.size();
-			mDimNonZeroData = otherVector.nonZeroes(); 
+			this->mDataIndices.clear();
+			this->mDataVals.clear();
+
+			this->mDim = otherVector.size();
+			this->mDimNonZeroData = otherVector.nonZeroes(); 
+			
 			for (int i=0; i<otherVector.nonZeroes(); i++){
-				mDataIndices.push_back(otherVector.indexNonZero(i));
-				mDataVals.push_back(otherVector.valueNonZero(i));
+				this->mDataIndices.push_back(otherVector.indexNonZero(i));
+				this->mDataVals.push_back(otherVector.valueNonZero(i));
 			}
 
 		}
@@ -53,46 +57,48 @@ class SparseVector{
 		//sets the value v_i of the vector. if it does not exist it is added 
 		void setValue(unsigned int index, T value){
 			//assert(index<mDim);
-			
+				
 			// Check for value
 			int localIndex;
-			std::cout << "1" << std::endl;
 			
-			auto result1 = std::find(mDataIndices.begin(), mDataIndices.end(), index);
-
-			std::cout << "result1" <<  std::endl;
+			auto result1 = std::find(this->mDataIndices.begin(), this->mDataIndices.end(), index);
+			auto result1_1 = std::distance(this->mDataIndices.begin(), result1);
 			
 			if (result1 != std::end(mDataIndices)) {
-				std::cout << "v contains: " << '\n';
+			
 				localIndex = std::distance(std::begin(mDataIndices), result1);
-				mDataVals[localIndex] = value;
+				this->mDataVals[localIndex] = value;
+			
 			} else {
-				std::cout << "v does not contain: "  << '\n';
-				mDataIndices.push_back(value);
-				mDataVals.push_back(value);
+				//std::cout << "v does not contain: "  << '\n';
+				
+				this->mDataVals.push_back(value);
+				this->mDataIndices.push_back(index);
+				
+				this->mDimNonZeroData++;
 			}
 		
 		};
 		
 		//returns the value v_i of the vector. Returns 0 if the value is not stored
 		T getValue(unsigned int index)const{
-			assert(index<mDim);
+			//assert(index<mDim);
 			
 			// Check for value
 			int localIndex;
 		
-			auto result1 = std::find(mDataIndices.begin(), mDataIndices.end(), index);
+			auto result1 = std::find(this->mDataIndices.begin(), this->mDataIndices.end(), index);
 
 			//std::cout << "result1" << result1 << std::endl;
 			
-			if (result1 != std::end(mDataIndices)) {
+			if (result1 != this->mDataIndices.end()) {
 				
-				std::cout << "v contains: " << '\n';
-				localIndex = std::distance(std::begin(mDataIndices), result1);
-				return mDataVals[localIndex];
+				//std::cout << "v contains: " << '\n';
+				localIndex = std::distance(this->mDataIndices.begin(), result1);
+				return this->mDataVals[localIndex];
 
 			} else {
-				return mZeroValue;				
+				return this->mZeroValue;				
 			}
 
 			
@@ -100,33 +106,35 @@ class SparseVector{
 
 		//returns the dimensionality of the vector
 		unsigned int size()const{
-			return mDim;
+			return this->mDim;
 		};
 
 		T getZeroValue()const{
-			return mZeroValue;
+			return this->mZeroValue;
 		}
 		// returns the number stored elements
 		unsigned int nonZeroes()const{
-			return mDimNonZeroData;
+			return this->mDimNonZeroData;
 		};
 
 		//returns the index of the ith stored nonzero entry (in increasing order)
 		unsigned int indexNonZero(unsigned int i)const{
-			assert(i>mDimNonZeroData);
-			return mDataIndices[i];
+			//assert(i>mDimNonZeroData);
+			return this->mDataIndices[i];
 		};
 
 		//returns the value of the ith stored nonzero entry (in increasing order)
 		T valueNonZero(unsigned int i)const{
-			assert(i>mDimNonZeroData);
-			return mDataVals[i];
+			//assert(i>mDimNonZeroData);
+			return this->mDataVals[i];
 		
 		};
 
+/*
 		std::vector<int> getDataIndices()const{
 			return mDataIndices;
 		}
+*/
 
 		//adds x too the current vector
 		SparseVector<T>& operator+= (SparseVector<T> const& x){
@@ -145,7 +153,7 @@ class SparseVector{
 				j++;
 			}
 			
-			mZeroValue = mZeroValue + x.mZeroValue;
+			this->mZeroValue = this->mZeroValue + x.mZeroValue;
 		
 			return *this;
 		
@@ -169,7 +177,7 @@ class SparseVector{
 				j++;
 			}
 			
-			mZeroValue = mZeroValue - x.mZeroValue;
+			this->mZeroValue = this->mZeroValue - x.mZeroValue;
 
 			return *this; 
 		}
@@ -183,7 +191,7 @@ SparseVector<T> operator+(SparseVector<T> const& x, SparseVector<T> const& y){
 	T mVal;
 
 	SparseVector<T> newVector(x.size());
-
+/*
 	int j = 0;
 
 	for (auto i: x.getDataIndices())
@@ -210,6 +218,9 @@ SparseVector<T> operator+(SparseVector<T> const& x, SparseVector<T> const& y){
 		}
 		j++;
 	}
+*/
+	newVector = x;
+	newVector += y;
 
 	return newVector; 
 
@@ -221,7 +232,7 @@ SparseVector<T> operator-(SparseVector<T> const& x, SparseVector<T> const& y){
 	T mVal;
 
 	SparseVector<T> newVector(x.size());
-
+/*
 	int j = 0;
 
 	for (auto i: x.getDataIndices())
@@ -248,6 +259,9 @@ SparseVector<T> operator-(SparseVector<T> const& x, SparseVector<T> const& y){
 		}
 		j++;
 	}
+*/
+	newVector = x;
+	newVector -= y;
 
 	return newVector; 
 };
@@ -258,36 +272,47 @@ SparseVector<T> operator-(SparseVector<T> const& x, SparseVector<T> const& y){
 template<class T>
 Vector<T> operator* (Matrix<T> const& A, SparseVector<T> const& x){
 	Vector<T> newVector(A.GetNumberOfRows());
-
+	
+	int index;
+	
 	for (int row = 0; row < A.GetNumberOfRows(); row++)
 	{	
+		//std::cout << "1" << std::endl;
 		T row_sum = 0;
 		for (int i = 0; i < x.nonZeroes(); i++)
 		{
-			T index = x.getDataIndices()[i];
-			row_sum += A(row, index)*x.getValue(index);
+			index = x.indexNonZero(i);
+			std::cout << "x.valueNonZero(index): " << x.valueNonZero(index) << std::endl;
+			row_sum += A(row, index)*x.valueNonZero(index);
+			//std::cout << "x.valueNonZero(index)" << x.valueNonZero(index) << std::endl;
 		}
 		newVector[row] = row_sum;
+		//std::cout << "newVector[row]" << newVector[row] << std::endl;
+
 	}
 	
 	return newVector;
 };
 
-// computes the matrix-vector product of a dense matrix and sparse vector z=x^TA.
+// computes the matrix-vector product of a dense matrix and sparse vector z=xA.
 // The result is a dense vector.
 template<class T>
 Vector<T> operator* (SparseVector<T> const& x, Matrix<T> const& A){
 	Vector<T> newVector(A.GetNumberOfRows());
 
+	int index;
+
 	for (int col = 0; col < A.GetNumberOfColumns(); col++)
 	{	
 		T col_sum = 0;
+		std::cout << "1" << std::endl;
 		for (int i = 0; i < x.nonZeroes(); i++)
 		{
-			T index = x.getDataIndices()[i];
-			col_sum += A(index, col)*x.getValue(index);
+			index = x.indexNonZero(i);
+			col_sum += A(index, col)*x.valueNonZero(index);
 		}
 		newVector[col] = col_sum;
+		std::cout << "newVector[col]" << newVector[col] << std::endl;
 	}
 	
 	return newVector;

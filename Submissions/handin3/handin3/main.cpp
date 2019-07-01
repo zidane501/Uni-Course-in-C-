@@ -218,7 +218,7 @@ void sparsevector(){
     int n = 10;
 
     // Creation
-    SparseVector<double> sparse(n), sparse1(n), sparse2(n);
+    SparseVector<double> sparse(n), sparse1(n), sparse2(n), sparse3(n);
     std::cout << "sparse.size(): " << sparse.size() << std::endl;
     
     
@@ -226,7 +226,7 @@ void sparsevector(){
     sparse.setValue(3, 1129.0);
     //sparse.setValue(4,1);
     //sparse.setValue(9,1);
-    sparse1.setValue(1, 100.0);
+    sparse1.setValue(1, 11.0);
 
     std::cout << "sparse after setting value:" << std::endl;
     for (int i = 0; i < sparse.size(); i++)
@@ -234,59 +234,289 @@ void sparsevector(){
         std::cout << "sparse[i]: " << sparse.getValue(i) << std::endl;
     }
     
-    //sparse += sparse1; 
-/*
-    for (int i = 0; i < sparse.size(); i++)
-    {
-        std::cout << "sparse[" << i <<"]: " << sparse.getValue(i) << std::endl;
-    }
-*/
+    sparse.setValue(3, 33);
 
-    /////////////////////////////////
-    sparse = sparse1+sparse;
-
-    std::cout << "sparse = sparse1+sparse:" << std::endl;
-
-    for (int i = 0; i < sparse.size(); i++)
-    {
-        std::cout << "sparse[" << i <<"]: " << sparse.getValue(i) << std::endl;
-    }
-
+    sparse.setValue(4, 44);
+    sparse.setValue(0, 100);
+    sparse.setValue(9, 99);
     
+    sparse3 += sparse;
+    std::cout << "sparse3 += sparse: " << std::endl; 
+
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse3[" << i <<"]: " << sparse3.getValue(i) << std::endl;
+    }
+
+
     /////////////////////////////////
+    
+
+    SparseVector<double> sparse4(n);
+    
+    sparse4.setValue(6,25);
+    sparse4 -= sparse3;
+    
+    std::cout << "/* sparse4 -= sparse3 */" << std::endl;
+
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse4[" << i << "]: " << sparse4.getValue(i) << std::endl;
+    }
+ 
+ 
+    /////////////////////////////////
+    
+}
+
+
+// vec+vec
+void Plus(){
+    std::cout << "/* ********************** Plus() ********************** */" << std::endl;
+    
+    int n = 10;
+    //sparse = sparse1+sparse;
+    
+    SparseVector<double> sparse(n), sparse1(n), sparse2(n);
+    sparse.setValue(3, 3);
+
+    sparse.setValue(4, 4);
+    sparse.setValue(0, 100);
+    sparse.setValue(9, 9);
+    std::cout << "sparse = sparse1+sparse: " << std::endl;
+
+    sparse1.setValue(4, 10);
+
+    sparse1.setValue(0, 10);
+    sparse1.setValue(8, 10);
+    sparse1.setValue(7, 10);
+    
+    sparse2 = sparse1 + sparse;
+
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse2[" << i << "]: " << sparse2.getValue(i) << std::endl;
+    }
+
+}
+
+// vec - vec
+void Minus(){
+    std::cout << "/* ********************** Minus() ********************** */" << std::endl;
+    
+    int n = 10;
+    //sparse = sparse1+sparse;
+    
+    SparseVector<double> sparse(n), sparse1(n), sparse2(n);
+
+    sparse.setValue(0, 100);
+    sparse.setValue(3, 3);
+    sparse.setValue(4, 4);
+    sparse.setValue(9, 9);
+
+    sparse1.setValue(0, 10);
+    sparse1.setValue(4, 10);
+    sparse1.setValue(8, 10);
+    sparse1.setValue(7, 10);
+    
+    sparse2 = sparse1 - sparse;
+
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse2[" << i << "]: " << sparse2.getValue(i) << std::endl;
+    }
+}
+
+
+// vec += otherVec
+void PlusEqual(){
+    std::cout << "/* ********************** PlusEqual() ********************** */" << std::endl;
+
+    int n = 10;
+
+    SparseVector<double> sparse(n), sparse1(n), sparse2(n);
+
+    sparse.setValue(0, 100);
+    sparse.setValue(3, 3);
+    sparse.setValue(4, 4);
+    sparse.setValue(6, 6);
+    sparse.setValue(9, 9);
+
+    sparse1.setValue(0, 10);
+    sparse1.setValue(4, 10);
+    sparse1.setValue(8, 10);
+    sparse1.setValue(7, 10);
+    
+    sparse1 += sparse;
+
+    std::cout << "sparse1 += sparse" << std::endl;
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse[" << i << "]: " << sparse1.getValue(i) << std::endl;
+    }
+}
+
+
+// vec -= otherVec
+void MinusEqual(){
+    std::cout << "/* ********************** MinusEqual() ********************** */" << std::endl;
+    int n = 10;
+
+    SparseVector<double> sparse(n), sparse1(n), sparse2(n);
+
+    sparse.setValue(0, 100);
+    sparse.setValue(3, 3);
+    sparse.setValue(4, 4);
+    sparse.setValue(6, 6);
+    sparse.setValue(9, 9);
+
+    sparse1.setValue(0, 10);
+    sparse1.setValue(4, 10);
+    sparse1.setValue(8, 10);
+    sparse1.setValue(7, 10);
+    
+    sparse1 -= sparse;
+
+    std::cout << "sparse1 += sparse" << std::endl;
+    for (int i = 0; i < sparse.size(); i++)
+    {
+        std::cout << "sparse[" << i << "]: " << sparse1.getValue(i) << std::endl;
+    }
+}
+
+// mat*vec
+void MatVec(){
     // Matrix sparse-vector multiplication dv=M*sv:
-    SparseVector<double> vecSparse(n);
-    vecSparse.setValue(4,2);
-    vecSparse.setValue(2,2);
+
+    int n = 4;
+    int row = 10;
+    int col = 4;
     
-    Matrix<double> mat(n,n);
-    for (int i = 0; i < n; i++)
+    SparseVector<double> vecSparse(col);
+    
+    vecSparse.setValue(0,3);
+    vecSparse.setValue(1,3);
+    vecSparse.setValue(2,3);
+    vecSparse.setValue(3,3);
+    
+    Matrix<double> mat(row,col);
+
+    std::cout << "mat.GetNumberOfRows: " << mat.GetNumberOfRows() << std::endl;
+    std::cout << "Yoyo" << std::endl;
+    for (int i = 0; i < row; i++)
     {
-        //std::cout << "vecSparse.getValue(" << i <<  "): " <<  vecSparse.getValue(i) << std::endl;
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < col; j++)
        {
-            mat(i,j) =  10;
-            std::cout << "mat(" << i << "," << j << "): " <<  mat(i,j) << ", ";
+            //std::cout << "vecSparse.getValue(" << i <<  "): " <<  vecSparse.getValue(i) << std::endl;
+            //std::cout << "i,j: " << i << "," << j << std::endl;
+            mat(i,j) =  1;
+            //std::cout << "i,j" << std::endl;
+
+            //std::cout << "mat(" << i << "," << j << "): " <<  mat(i,j) << ", ";
         }
         
     }
     
-    Vector<double> VecDense(10);
-
+    Vector<double> VecDense(col);
+    
     VecDense = mat*vecSparse;
+    
+    std::cout << "mate" << std::endl;
 
-    std::cout << "VecDense = mat*vecSparse:" << std::endl;
-    for (int i = 0; i < vecSparse.size(); i++)
+    std::cout << "VecDense =  mat*vecSparse:" << std::endl;
+    std::cout << "vec size" << VecDense.size() << std::endl;
+    for (int i = 0; i < VecDense.size(); i++)
     {
         std::cout << "VecDense[" << i << "]: " << VecDense[i] << std::endl;
     }
+
+}
+// vec*mat
+void VecMat(){
+    std::cout << "/* ********************** VecMat() ********************** */" << std::endl;
+    
+
+    int n = 10;
+    int row = 10;
+    int col = 4;
+    SparseVector<double> vecSparse(n);
+    
+    vecSparse.setValue(0,1);
+    vecSparse.setValue(1,1);
+    vecSparse.setValue(2,1);
+    vecSparse.setValue(3,1);
+    vecSparse.setValue(4,1);
+    vecSparse.setValue(5,1);
+    vecSparse.setValue(6,1);
+    vecSparse.setValue(7,1);
+    vecSparse.setValue(8,1);
+    vecSparse.setValue(9,1);
+
+
+    Matrix<double> mat(row,col);
+
+    std::cout << "mat.GetNumberOfRows: " << mat.GetNumberOfRows() << std::endl;
+    std::cout << "Yoyo" << std::endl;
+
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+       {
+            //std::cout << "vecSparse.getValue(" << i <<  "): " <<  vecSparse.getValue(i) << std::endl;
+            //std::cout << "i,j: " << i << "," << j << std::endl;
+    
+            mat(i,j) =  4;
+    
+            //std::cout << "i,j" << std::endl;
+
+            //std::cout << "mat(" << i << "," << j << "): " <<  mat(i,j) << ", ";
+        }
+        
+    }
+    
+    Vector<double> VecDense(col);
+    
+    std::cout << "there" << std::endl;
+    
+    VecDense = vecSparse*mat;
+    
+    std::cout << "mate" << std::endl;
+
+    std::cout << "VecDense =  vecSparse*mat:" << std::endl;
+    std::cout << "vec size" << VecDense.size() << std::endl;
+    
+    for (int i = 0; i < VecDense.size(); i++)
+    {
+        std::cout << "VecDense[" << i << "]: " << VecDense[i] << std::endl;
+    }
+    
 }
 
+
+
+////////////////////////////////////////////////////////
 int main() {
     
     //unit_tests();
+    //sparsevector();
     
-    sparsevector();
+    //vec + vec
+    //Plus(); // Virker vvv
     
+    //vec - vec
+    //Minus(); //Virker vvv
+    
+    //vec += otherVec 
+    // PlusEqual(); // virker vvv
+    
+    //vec -= otherVec
+   // MinusEqual(); // virker vvv
+    
+    //mat*vec
+    MatVec(); // Virker vvv
+
+    //vec*mat
+    //VecMat(); // Virker vvv
+
     return 0;
 }

@@ -146,7 +146,7 @@ void guassian_elimination(double **A, double *b, double *u, int n){
         // std::cout << "A[k-1][k-1]: " << A[k-1][k-1] << std::endl;
         
         if(A[k-1][k-1]==0){
-            A_ik_max = -std::numeric_limits<double>::max();
+            A_ik_max = -10000.0;
 
             matrixSize = n-k+1;
             
